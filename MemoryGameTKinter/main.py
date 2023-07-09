@@ -27,18 +27,6 @@ def signals():
 def click(button):
     global score, user_input
     if inputt:
-
-
-
-
-
-
-
-
-
-
-
-                                                    
         user_input.append(buttons[button])
         if user_input == real_list:
             score += 1
