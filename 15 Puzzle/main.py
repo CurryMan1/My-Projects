@@ -6,6 +6,7 @@ import re
 root = Tk()
 root.title('15 Puzzle')
 root.iconbitmap('C:/Users/user/Downloads/depositphotos_66714493-stock-photo-number-15.ico')
+root.resizable(False, False)
 widgets = []
 widgets.append(root)
 numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] #mixed up

@@ -3,50 +3,53 @@ import random
 
 root = Tk()
 root.title('Simon Says')
-colours = ['green', 'red', 'yellow', 'blue']
-buttons = []
-real_list = []
+colors = ['green', 'red', 'yellow', 'blue']
+tiles = []
 user_input = []
+real_list = []
 score = 0
 
+#give output
 def signals():
-    global inputt
-    real_list.append(random.choice(buttons))
-    inputt = False
-    root.after(750, root.quit)
+    global inputting
+    real_list.append(random.choice(tiles))
+    inputting = False
+    root.after(500, root.quit)
     root.mainloop()
-    for button in real_list:
+    for tile in real_list:
+        tile.config(bg='white')
+        #give a pause in the middle
         root.after(250, root.quit)
         root.mainloop()
-        button.config(bg='white')
+        tile.config(bg=colors[tiles.index(tile)])
         root.after(250, root.quit)
         root.mainloop()
-        button.config(bg=colours[buttons.index(button)])
-    inputt = True
+    inputting = True
 
-def click(button):
-    global score, user_input
-    if inputt:
-        user_input.append(buttons[button])
+#take input
+def click(tile):
+    global user_input, score
+    if inputting:
+        user_input.append(tiles[tile])
         if user_input == real_list:
             score += 1
-            score_label.config(text=f'Score: {score}')
+            score_display.config(text=f'Score: {score}')
             user_input = []
             signals()
         elif user_input != real_list[:len(user_input)]:
-            wrong = Label(root, text='Game OVER', font=('System', 40))
-            wrong.grid(row=3, columnspan=2)
-            for button in buttons:
+            wrong = Label(root, text='Game OVER!', font=('System', 50))
+            wrong.grid(columnspan=2)
+            for tile in tiles:
                 button.config(state='disabled')
-            root.after(3000, lambda: exit())
+            root.after(3000, exit)
 
 for i in range(4):
-    button = Button(root,width=40, height=20, command=lambda i=i:click(i), bg=colours[i])
-    button.grid(row=(i // 2)+1, column=i % 2)
-    buttons.append(button)
+    tile = Button(root, width=40, height=20, command=lambda i=i: click(i), bg=colors[i])
+    tile.grid(row=(i // 2)+1, column=i%2)
+    tiles.append(tile)
 
-score_label = Label(root, text=f'Score: {score}', font=('System', 40))
-score_label.grid(row=0,columnspan=1, sticky=W)
+score_display = Label(text=f'Score: {score}', font=('System', 40))
+score_display.grid(row=0, sticky=W)
 
 signals()
 root.mainloop()

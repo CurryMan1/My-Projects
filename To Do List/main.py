@@ -3,6 +3,7 @@ from CTkListbox import *
 
 root = CTk()
 root.title('To Do List')
+root.resizable(False, False)
 
 items_file = 'items.txt'
 
@@ -11,17 +12,17 @@ stored_item = ''
 times_run = 0
 
 def close_win(x):
+    global times_run
     temp = 0
     temp2 = ''
     if x == 1:
         temp = box.get().replace('\n', '').replace('-', '') + '\n'
         temp2 = items.index(box.get().replace('\n', '').replace('-', '') + '\n')
-        pri
-        nt(temp2)
-
         items.remove(temp)
-        box.delete(temp2)
-        print(items)
+        if times_run != 0:
+            box.delete(temp2+1)
+        else:
+            box.delete(temp2)
         with open(items_file, 'w') as file:
             for line in items:
                 file.write(line)
@@ -43,9 +44,11 @@ def close_win(x):
     except:
         print('Error Log: You pressed delete item')
     delete_item.configure(state='disabled')
+    times_run += 1
 
 def add_an_item():
-    global window1, enter
+    global window1, enter, times_run
+    times_run = 0
     window1 = CTkToplevel(root)
     window1.title('Add Item')
     window1.attributes("-topmost", True)

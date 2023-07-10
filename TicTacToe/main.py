@@ -3,6 +3,7 @@ from tkinter import *
 root = Tk()
 root.title('Tic Tac Toe')
 root.iconbitmap("C:/Users/user/Documents/Hardhik's Stuff/Random Stuff/TTT.ico")
+root.resizable(False, False)
 buttons = [[], [], []]
 turn = 0
 

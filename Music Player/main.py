@@ -6,6 +6,7 @@ import os, math, datetime, random
 root = CTk()
 root.title('Audio Player')
 root.iconbitmap('Wineass-Ios7-Redesign-Music.ico')
+root.resizable(False, False)
 last_song = False
 buttons_frame = CTkFrame(root)
 timestamp = -1
