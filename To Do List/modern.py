@@ -19,10 +19,8 @@ def close_win(x):
         temp = box.get().replace('\n', '').replace('-', '') + '\n'
         temp2 = items.index(box.get().replace('\n', '').replace('-', '') + '\n')
         items.remove(temp)
-        if times_run != 0:
-            box.delete(temp2+1)
-        else:
-            box.delete(temp2)
+        print(temp)
+        box.delete(temp2)
         with open(items_file, 'w') as file:
             for line in items:
                 file.write(line)
@@ -31,7 +29,6 @@ def close_win(x):
     except:
         print('Error Log: You pressed delete item or add item')
     try:
-        print(window1.title)
         box.insert(len(items) + 1, enter.get())
         items.append(enter.get()+'\n')
         with open(items_file, 'w') as file:

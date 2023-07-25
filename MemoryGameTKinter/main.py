@@ -9,7 +9,6 @@ user_input = []
 real_list = []
 score = 0
 
-#give output
 def signals():
     global inputting
     real_list.append(random.choice(tiles))
@@ -18,7 +17,6 @@ def signals():
     root.mainloop()
     for tile in real_list:
         tile.config(bg='white')
-        #give a pause in the middle
         root.after(250, root.quit)
         root.mainloop()
         tile.config(bg=colors[tiles.index(tile)])
@@ -26,7 +24,6 @@ def signals():
         root.mainloop()
     inputting = True
 
-#take input
 def click(tile):
     global user_input, score
     if inputting:
