@@ -43,6 +43,7 @@ class Main_Menu_Class:
         self.visual = Visual_Memory_Class()
         self.number = Number_Memory_Class()
         self.chimp = Chimp_Test_Class()
+        self.verbal = Verbal_Test_Class()
 
         for i in range(6):
             menu_button = Button(main_menu, text=' '.join(self.frame_comms[i].__name__.split('_')[1:]).title(), command=self.frame_comms[i], font='System 30', fg=yellow, bg=grey, width=15, height=2)
@@ -70,9 +71,7 @@ class Main_Menu_Class:
         for time_button in self.clicks.time_buttons:
             self.clicks.time_button.config(bg='#857b7a', state='normal')
         #VISUAL MEMORY
-        self.visual.vis_grid_frame.grid_forget()
-        self.visual.start.grid(row=1, column=0, columnspan=2)
-        self.visual.level = 0
+        self.visual.restart()
         #NUMBER MEMORY
         self.number.digits = 0
         self.number.rand_num = ''
@@ -87,6 +86,8 @@ class Main_Menu_Class:
         self.number.num_start.grid(row=1, column=0, columnspan=2)
         #CHIMP TEST
         self.chimp.restart()
+        #VERBAL TEST
+        self.verbal.restart()
 
 
     def go_reaction():
@@ -194,10 +195,28 @@ class Visual_Memory_Class:
         self.guesses = 0
         self.vis_grid_frame = Frame(visual_memory)
 
+        self.fail_frame = Frame(visual_memory, bg='#cf4848')
+        self.fail_msg = Label(self.fail_frame, font='System 40', fg=yellow, bg='#cf4848')
+        self.fail_msg.grid(pady=80, padx=80)
+        self.fail_frame.bind('<Button-1>', self.restart)
+        self.fail_msg.bind('<Button-1>', self.restart)
+
         self.level_display = Label(visual_memory, text=f'  Level: {self.level}', font='System 30', fg=yellow, bg=grey)
         self.lives_display = Label(visual_memory, text=f'Lives: {self.lives}  ', font='System 30', fg=yellow, bg=grey)
 
         self.start = Button(visual_memory, text='Start', font='System 50', fg=yellow, bg='#857b7a', width=16, height=8, command=lambda: self.create_grid(3, 3))
+        self.start.grid(row=1, column=0, columnspan=2)
+
+    def restart(self, *args):
+        self.lives_display.grid_forget()
+        self.level_display.grid_forget()
+        self.vis_grid_frame.grid_forget()
+        self.fail_frame.grid_forget()
+        self.level = 0
+        self.lives = 3
+        self.guesses = 0
+        self.lives_display.config(text=f'Lives: {self.lives}  ')
+        self.level_display.config(text=f'Lives: {self.lives}  ')
         self.start.grid(row=1, column=0, columnspan=2)
 
     def click(self, cellno):
@@ -216,12 +235,15 @@ class Visual_Memory_Class:
             if self.lives == 0:
                 for cell in self.cells:
                     cell.config(bg='#cf4848', state='disabled')
+                self.fail_msg['text'] = f'You lost all your lives!\nYou got up to Level {self.level}.\n\nClick to continue'
                 self.level = 0
                 self.lives = 3
                 self.guesses = 0
-                sleep(3000)
+                sleep(1000)
+                self.lives_display.grid_forget()
+                self.level_display.grid_forget()
                 self.vis_grid_frame.grid_forget()
-                self.start.grid(row=1, column=0, columnspan=2)
+                self.fail_frame.grid(row=1, columnspan=2)
 
     def create_grid(self, width:int, height:int):
         self.start.grid_forget()
@@ -358,8 +380,7 @@ class Chimp_Test_Class:
         self.lives = 3
         self.level_display.grid_forget()
         self.lives_display.grid_forget()
-        self.level_display['text'] = f'  Level: {self.level}'
-        self.lives_display['text'] = f'Lives: {self.lives}  '
+        self.level_display['text'], self.lives_display['text'] = f'  Level: {self.level}', f'Lives: {self.lives}  '
         self.buttons_frame.grid_forget()
         self.start.grid(row=1, columnspan=2)
         for widgets in self.buttons_frame.winfo_children():
@@ -381,7 +402,7 @@ class Chimp_Test_Class:
         for i in range(70):
             if i//10 == 0 or i//10 == 6 or i%10 == 0 or i%10 == 9:
                 border_button = Button(self.buttons_frame, font='System 20', bg='#00AFA6', width=4, height=2, state='disabled', text='‎')
-#                                                                                                                                Invisible Character^^^
+#                                                                                                                  Invisible Character^^^
                 border_button.grid(row=i//10, column=i%10)
                 self.border_buttons.append(border_button)
 
@@ -408,6 +429,8 @@ class Chimp_Test_Class:
             if self.level+3 == self.guessno-1:
                 self.guessno = 1
                 self.level += 1
+                if self.level == 38:
+                    self.restart()
                 self.level_display.config(text=f'  Level: {self.level}')
                 self.create_grid()
         else:
@@ -425,6 +448,86 @@ class Chimp_Test_Class:
                 sleep(200)
                 for button in self.border_buttons:
                     button.config(bg='#00AFA6')
+
+#VERBAL TEST============================================================================================================
+class Verbal_Test_Class:
+    def __init__(self):
+        self.words_file = 'Random Words.txt'
+        self.seen_words = []
+        with open(self.words_file, 'r') as file:
+            self.words = file.readlines()
+
+        self.word = random.choice(self.words)
+        self.words.remove(self.word)
+        self.lives = 3
+        self.score = 0
+
+        self.start = Button(verbal_test, text='Start', font='System 50', fg=yellow, bg='#857b7a', width=16, height=3, command=self.start_button_comm)
+        self.start.grid(row=1, columnspan=2)
+
+        self.guessing_frame = Frame(verbal_test, bg='#1f4480')
+
+        self.topheader = Label(self.guessing_frame,
+                               text=f'   Score: {self.score}                     Lives: {self.lives}   ',
+                               font='System 30 underline', fg=yellow, bg='#1f4480')
+        self.topheader.grid(row=0, columnspan=2, pady=(5, 0))
+
+        self.word_disp = Label(self.guessing_frame, text=self.word.strip(), font='System 50', fg=yellow, bg='#1f4480')
+        self.word_disp.grid(row=1, columnspan=2, pady=(7,0))
+
+        self.seen = Button(self.guessing_frame, text='Seen', font='System 30', fg=yellow, bg=grey, width=12, command=lambda: self.change_word(True))
+        self.seen.grid(row=2, column=0, padx=(40, 0), pady=(0, 20))
+
+        self.new = Button(self.guessing_frame, text='New', bg=grey, font='System 30', fg=yellow, width=12, command=lambda: self.change_word(False))
+        self.new.grid(row=2, column=1, padx=(0, 40), pady=(0, 20))
+
+        self.fail_frame = Frame(verbal_test, bg='#cf4848')
+        self.fail_msg = Label(self.fail_frame, font='System 30', fg=yellow, bg='#cf4848')
+        self.fail_msg.grid(pady=60, padx=60)
+        self.fail_frame.bind('<Button-1>', self.restart)
+        self.fail_msg.bind('<Button-1>', self.restart)
+
+    def start_button_comm(self):
+        self.start.grid_forget()
+        self.guessing_frame.grid(row=1, columnspan=2)
+
+    def change_word(self, boolean):
+        if boolean == (self.word in self.seen_words):
+            self.score += 1
+            if self.word not in self.seen_words:
+                self.seen_words.append(self.word)
+        else:
+            if self.word not in self.seen_words:
+                self.seen_words.append(self.word)
+            self.lives -= 1
+            if self.lives == 0:
+                self.guessing_frame.grid_forget()
+                self.fail_msg['text'] = f'You lost all your lives!\nYou got a score of {self.score}.\n\nClick to continue'
+                self.fail_frame.grid(row=1, columnspan=2)
+
+        #40% CHANCE OF SHOWING SEEN WORD
+        if random.random() <= 0.6 or len(self.seen_words) <= 2:
+            self.word = random.choice(self.words)
+            self.words.remove(self.word)
+        else:
+            self.word = random.choice(self.seen_words)
+        self.topheader.config(text=f'   Score: {self.score}                     Lives: {self.lives}   ')
+        self.word_disp.config(text=self.word.strip())
+
+    def restart(self, *args):
+        self.guessing_frame.grid_forget()
+        self.fail_frame.grid_forget()
+        self.start.grid(row=1, columnspan=2)
+        self.seen_words = []
+        with open(self.words_file, 'r') as file:
+            self.words = file.readlines()
+        self.word = random.choice(self.words)
+        self.word_disp.config(text=self.word.strip())
+        self.words.remove(self.word)
+        self.lives = 3
+        self.score = 0
+        self.topheader.config(text=f'   Score: {self.score}                     Lives: {self.lives}   ')
+
 
 #BOTTOM OF CODE=========================================================================================================
 main_menu_thing = Main_Menu_Class()
