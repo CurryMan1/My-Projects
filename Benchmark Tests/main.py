@@ -528,7 +528,6 @@ class Verbal_Test_Class:
         self.score = 0
         self.topheader.config(text=f'   Score: {self.score}                     Lives: {self.lives}   ')
 
-
 #BOTTOM OF CODE=========================================================================================================
 main_menu_thing = Main_Menu_Class()
 root.mainloop()
