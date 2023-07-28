@@ -4,7 +4,7 @@ from datetime import datetime
 from PIL import Image, ImageTk
 
 '''
-This is a clock by Hardhik Vittanala.
+This is a clock app.
 There may be random errors throughout the program; ignore them.
 They are just after_cancel(self, id) errors.
 The errors happen because {id} isn't defined yet
