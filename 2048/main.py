@@ -4,80 +4,56 @@ import random
 root = Tk()
 root.title('2048')
 root.resizable(False, False)
-squares = [[],[],[],[]]
 
 
-# no_unmovable = 0
-# while no_unmovable < 16:
-#     no_unmovable = 0
-#     iteration = 0
-#     for square in squares:
-#         iteration += 1
-#         if square.cget('text') != '' and squares.index(square)-4 >= 0:
-#             if squares[squares.index(square)-4].cget('text') == '':
-#                 squares[squares.index(square)-4].config(text=square.cget('text'))
-#                 square.config(text='')
-#             elif squares[squares.index(square)-4].cget('text') == square.cget('text'):
-#                 squares[squares.index(square) - 4].config(text=str(int(squares[squares.index(square) - 4].cget('text')) + int(square.cget('text'))))
-#                 square.config(text='')
-#             else:
-#                 no_unmovable += 1
-#         else:
-#             no_unmovable += 1
-# if iteration != 1:
-#     random_square = random.choice(squares)
-#     while random_square.cget('text') != '':
-#         random_square = random.choice(squares)
-#     if random.random() <= 0.9:
-#         random_square.config(text=2)
-#     else:
-#         random_square.config(text=4)
+class Game:
+    def __init__(self):
+        self.squares = []
+        for i in range(16):
+            square = Label(root, bg='red', width=6, height=3, font='system 40', text=random.choice(['','',2, 4, '', 1]))
+            square.grid(row=i // 4, column=i % 4, pady=5, padx=5)
+            self.squares.append(square)
 
-def up(x):
-    for row in range(4):
-        for column in range(4):
-            if squares[row][column].cget('text') != '':
-                try:
-                    if squares[row][column].cget('text') == squares[row+1][column].cget('text'):
-                        squares[row][column].config(text=str(int(squares[row][column].cget('text')) + int(squares[row+1][column].cget('text'))))
-                        squares[row+1][column].config(text='')
-                except:
-                    pass
+    def merge_board(self, direction):
+        immovable = 0
+        if direction in 'LR':
+            board = [[self.squares[0], self.squares[1], self.squares[2], self.squares[3],],
+                     [self.squares[4], self.squares[5], self.squares[6], self.squares[7],],
+                     [self.squares[8], self.squares[9], self.squares[10], self.squares[11],],
+                     [self.squares[12], self.squares[13], self.squares[14], self.squares[15],]]
+        else:
+            board = [[self.squares[0], self.squares[4], self.squares[8], self.squares[12],],
+                     [self.squares[1], self.squares[5], self.squares[9], self.squares[13],],
+                     [self.squares[2], self.squares[6], self.squares[10], self.squares[14],],
+                     [self.squares[3], self.squares[7], self.squares[11], self.squares[15],]]
 
-def down(x):
-    print('down')
+        if direction in 'DR':
+            way = 1
+        else:
+            way = -1
 
-def left(x):
-    print('left')
+        for row in range(4):
+            for column in range(4):
+                square_text = board[row][column].cget('text')
+                #check text isn't empty
+                if square_text != '':
+                    while immovable != 16:
+                        far_blnk_sq = board[row][column]
+                        for i in range(way*1, way*4): #(1, 2, 3)
+                            if column+(way*i) not in range(-3, 4) or board[row][column + (way * i)].cget('text') != '':
+                                break
+                            next_square = board[row][column + (way * i)]
+                            if next_square.cget('text') == '':
+                                far_blnk_sq = next_square
+                        board[row][column].config(text='')
+                        far_blnk_sq.config(text=square_text)
 
-def right(x):
-    print('right')
+    def get_key(self, key):
+        if key.keysym in ['Up', 'Down', 'Left', 'Right']:
+            self.merge_board(key.keysym[0])
+        else:
+            pass
 
-
-for i in range(16):
-    square = Label(bg='red', width=6, height=3, font=('system', 40))
-    square.grid(row=i//4, column=i%4, pady=5, padx=5)
-    squares[i//4].append(square)
-
-squares[0][0]['text'], squares[1][0]['text'] = 1, 1
-
-# taken_square = random.choice(squares)
-# second_square = random.choice(squares)
-# while taken_square == second_square:
-#     second_square = random.choice(squares)
-# if random.random() <= 0.9:
-#     taken_square.config(text=2)
-# else:
-#     taken_square.config(text=4)
-#
-# if random.random() <= 0.9:
-#     second_square.config(text=2)
-# else:
-#     second_square.config(text=4)
-
-root.bind('<Up>', up)
-root.bind('<Down>', down)
-root.bind('<Left>', left)
-root.bind('<Right>', right)
-
+game = Game()
+root.bind('<Key>', game.get_key)
 root.mainloop()

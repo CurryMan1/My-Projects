@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a63b23db-1aa9-406c-8266-5adb15e7f9eb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Benchmark Tests/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Testing Program/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../15 Puzzle/scores.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../15 Puzzle/scores.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MemoryGameTKinter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../MemoryGameTKinter/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../To Do List/items.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../To Do List/items.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../To Do List/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../To Do List/modern.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../Testing Program/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Testing Program/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Testing Program/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Testing Program/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Testing Program/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/weai.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Testing Program/.idea/Testing Program.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-    </list>
+    <list default="true" id="a63b23db-1aa9-406c-8266-5adb15e7f9eb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

@@ -13,6 +13,7 @@ root = Tk()
 root.iconbitmap('C:/Users/user/Downloads/Iconsmind-Outline-Timer-2.ico')
 root.title('Benchmark Tests')
 root.resizable(False, False)
+root.geometry('+500+200')
 
 main_menu = Frame(root, bg=grey)
 reaction = Frame(root, bg=grey)
