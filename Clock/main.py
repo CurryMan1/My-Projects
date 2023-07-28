@@ -20,18 +20,18 @@ Clock = Frame(root, bg='black')
 Timer = Frame(root, bg='black', width=700, height=800)
 Stopwatch = Frame(root, bg='black')
 
-miniapps = [Clock, Timer, Stopwatch]
+mini_apps = [Clock, Timer, Stopwatch]
 buttons = []
 
 #BUTTONS----------------------------------------------------------------------------------------------------------------
 def change(btn_idx, des_frame):
-    for i, miniapp in enumerate(miniapps):
+    for i, miniapp in enumerate(mini_apps):
         buttons[i].config(bg='black', state='normal')
         miniapp.grid_remove()
     des_frame.grid(columnspan=3)
     buttons[btn_idx].config(bg='white', state='disabled')
 
-for i, frame in enumerate(miniapps):
+for i, frame in enumerate(mini_apps):
     button = Button(root,
                     text=[w for w, j in locals().items() if j == frame][0],
                     font='Helvetica 40 bold', bg=['white', 'black'][-(i//-3)],
