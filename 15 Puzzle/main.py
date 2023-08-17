@@ -9,7 +9,7 @@ root.iconbitmap('C:/Users/user/Downloads/depositphotos_66714493-stock-photo-numb
 root.resizable(False, False)
 widgets = []
 widgets.append(root)
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] #mixed up
+numbers = [i+1 for i in range(15)] #mixed up
 random.shuffle(numbers)
 buttons = [] #in order
 sample_buttons = []
@@ -24,7 +24,7 @@ sample = numbers[:]
 #options
 chosen_font = 0
 chosen_colour_scheme = 0
-colour_schemes = [['white', 'grey'], ['white', 'black'], ['orange', '#5B84B1'], ['#949398', '#F4DF4E'], ['#FC766A', '#5B84B1'], ['#D6ED17', '#606060'], ['red', 'black']]
+colour_schemes = (['white', 'grey'], ['white', 'black'], ['orange', '#5B84B1'], ['#949398', '#F4DF4E'], ['#FC766A', '#5B84B1'], ['#D6ED17', '#606060'], ['red', 'black'])
 
 #frames
 game_frame = Frame(root, bg=colour_schemes[chosen_colour_scheme][1])

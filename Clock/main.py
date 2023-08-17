@@ -2,11 +2,12 @@ from tkinter import *
 from tkinter import ttk
 from datetime import datetime
 from PIL import Image, ImageTk
+import re
 
 '''
 This is a clock app.
 There may be random errors throughout the program; ignore them.
-They are just after_cancel(self, id) errors.
+They are just 'after_cancel(self, id)' errors.
 The errors happen because {id} isn't defined yet
 '''
 
@@ -43,9 +44,9 @@ for i, frame in enumerate(mini_apps):
     buttons.append(button)
 
 #CLOCK------------------------------------------------------------------------------------------------------------------
-def update():
+def update_clock():
     digclock.config(text=datetime.now().strftime("%H:%M:%S"))
-    root.after(1000, update)
+    root.after(1000, update_clock)
 
 digclock = Label(Clock, text=datetime.now().strftime("%H:%M:%S"), font='Helvetica 100 bold', bg='black', fg='#9C7A00')
 digclock.grid(row=1)
@@ -66,13 +67,14 @@ def update_timer(timer, values, visual_timer, wait=False):
             values[1] = 59
             values[0] -= 1
             if values[0] == -1:
+                root.bell()
                 return 'END TIMER'
     else:
         values[2] -= 1
 
     formatted_times = [f"{values[0]:02}", f"{values[1]:02}", f"{values[2]:02}"]
     timer.config(text=':'.join(formatted_times))
-    if wait == False:
+    if not wait:
         visual_timer.step(-1)
     else:
         wait = False
@@ -88,8 +90,8 @@ def pause_play(button, time_dis, sending_list, visual_timer):
         try:
             root.after_cancel(x)
         except:
-            pass #only used try except bc otherwise rest of code wouldn't run
-        button.config(text='▶️')
+            pass #only used try except twice bc otherwise code wouldn't run
+        button.config(text=' ▶ ')
     else:
         button.config(text='⏸️')
         x = root.after(1000, lambda: update_timer(time_dis, sending_list, visual_timer))
@@ -115,7 +117,7 @@ def start_timer(timer):
             time_dis = Label(timer, text=f"{times[0]}:{times[1]}:{times[2]}", font='Helvetica 50 bold', bg='black', fg='white')
             time_dis.grid(row=1, column=0, pady=(20,0), padx=(35,0))
 
-            sending_list = [int(time) if i != 2 else int(time)+1 for i, time in enumerate(times)]
+            sending_list = [int(time) if i != 2 else int(time) for i, time in enumerate(times)]
 
             mystyle = ttk.Style()
             mystyle.theme_use('clam')
@@ -182,7 +184,42 @@ new_timer_button = Button(Timer, image=tkplus, height=100, width=100, command=ne
 new_timer_button.place(relx=1, rely=1, anchor=SE)
 available_spots = [0, 1, 2, 3]
 
+#STOPWATCH--------------------------------------------------------------------------------------------------------------
+def update_stopwatch():
+    global y
+    values = [int(x) for x in re.split(r'\D', stopwatch_disp['text'])]
+    values[3] += 1
+    if values[3] == 10:
+        values[3] = 0
+        values[2] += 1
+        if values[2] == 60:
+            values[2] = 0
+            values[1] += 1
+            if values[1] == 60:
+                values[1] = 0
+                values[0] += 1
+    stopwatch_disp['text'] = ''.join([f'{x:02}:' if (i == 0 or i == 1) else f'{x:02}.' if i == 2 else str(x) for i, x in enumerate(values)])
+    y = root.after(100, update_stopwatch)
+
+def pause_play2(btn):
+    global y
+    if btn.cget('text') == '⏸️':
+        root.after_cancel(y)
+        btn.config(text=' ▶ ')
+    else:
+        btn.config(text='⏸️')
+        update_stopwatch()
+
+stopwatch_disp = Label(Stopwatch, text='00:00:00.0', font='Helvetica 60 bold', bg='black', fg='white')
+stopwatch_disp.grid(row=0, columnspan=2)
+
+pause2 = Button(Stopwatch, text=' ▶ ', command=lambda: pause_play2(pause2), font='Helvetica 37 bold', bg='black', fg='white')
+pause2.grid(row=1, column=0, sticky=E)
+
+restart2 = Button(Stopwatch, text='↻', command=lambda: stopwatch_disp.config(text='00:00:00.0'), font='Helvetica 37 bold', bg='black', fg='white', width=3)
+restart2.grid(row=1, column=1, sticky=W)
+
 #END--------------------------------------------------------------------------------------------------------------------
-root.after(round((1000000-int(str(datetime.now()).split('.')[1]))/1000), update)
+root.after(round((1000000-int(str(datetime.now()).split('.')[1]))/1000), update_clock)
 Clock.grid(columnspan=3)
 root.mainloop()

@@ -1,0 +1,11 @@
+{
+  "user1": {
+    "balance": 100
+  },
+  "user2": {
+    "balance": 100
+  },
+  "x": {
+    "balance": 90
+  }
+}

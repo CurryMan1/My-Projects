@@ -1,4 +1,5 @@
 from datetime import date
+
 daysoftheweek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 y = int(input("What year were you born in? (YYYY)"))

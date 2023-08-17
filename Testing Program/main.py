@@ -1,1 +1,1 @@
-#test whatever you want here lol
+print(__name__)
