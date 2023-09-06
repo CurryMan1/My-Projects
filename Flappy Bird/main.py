@@ -1,6 +1,5 @@
 import pygame as pg
 from random import randint
-from pygame.locals import *
 
 pg.init()
 clock = pg.time.Clock()
@@ -50,7 +49,7 @@ def reset_game():
 #sprites
 class Bird(pg.sprite.Sprite):
     def __init__(self, x, y):
-        super(Bird, self).__init__()
+        super().__init__()
         self.images = []
         self.index = 0
         self.counter = 0
@@ -96,7 +95,7 @@ class Bird(pg.sprite.Sprite):
 
 class Pipe(pg.sprite.Sprite):
     def __init__(self, x, y, position):
-        super(Pipe, self).__init__()
+        super().__init__()
         self.image = pg.image.load('pipe.png')
         self.rect = self.image.get_rect()
         #position 1 is from the top, -1 is from the bottom
@@ -117,7 +116,7 @@ class Button():
         self.rect = self.image.get_rect()
         self.rect.topleft = [x, y]
 
-    def draw(self):
+    def draw(self) -> bool: #returns if button has been pressed
         action = False
 
         #get mouse pos
@@ -133,7 +132,7 @@ class Button():
 
         return action
 
-bird_group = pg.sprite.Group()
+bird_group = pg.sprite.GroupSingle()
 pipe_group = pg.sprite.Group()
 
 flappy = Bird(100, int(screen_height/2))
