@@ -6,7 +6,7 @@ pygame.init()
 clock = pygame.time.Clock()
 fps = 60
 
-falling_speed = 6
+falling_speed = 8
 curry_frequency = 1000 #milliseconds
 last_curry = 0-curry_frequency
 curry_falling = False
@@ -15,9 +15,6 @@ lives = 3
 
 screen_width = 1700
 screen_height = 900
-
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Catch The Curry')
 
 #images
 bg = pygame.image.load('images/bg.jpg')#1 point
@@ -29,6 +26,11 @@ chicken_curry = pygame.transform.scale(pygame.image.load('images/Chicken Curry.p
 mutton_curry = pygame.transform.scale(pygame.image.load('images/Mutton Curry.png'), (100, 60)) #2 points
 paneer_curry = pygame.transform.scale(pygame.image.load('images/Paneer Curry.png'), (100, 58)) #1 point
 curries = [paneer_curry, mutton_curry, chicken_curry]
+
+#screen
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Catch The Curry')
+pygame.display.set_icon(chicken_curry)
 
 #colour
 black = (0, 0, 0)
