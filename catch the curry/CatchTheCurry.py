@@ -1,4 +1,5 @@
 import pygame
+import os
 from random import randint
 
 pygame.init()
@@ -28,6 +29,7 @@ paneer_curry = pygame.transform.scale(pygame.image.load('images/Paneer Curry.png
 curries = [paneer_curry, mutton_curry, chicken_curry]
 
 #screen
+os.environ['SDL_VIDEO_CENTERED'] = '0'
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Catch The Curry')
 pygame.display.set_icon(chicken_curry)
@@ -36,7 +38,7 @@ pygame.display.set_icon(chicken_curry)
 black = (0, 0, 0)
 
 #font
-font = pygame.font.Font("C:/Users/user/Documents/Hardhik's Stuff/Random Stuff/Fonts/Futura Extra Black font.ttf", 60)
+font = pygame.font.Font("images/Futura Extra Black font.ttf", 60)
 def draw_text(text, font, fg, x, y):
     img = font.render(text, True, fg)
     screen.blit(img, (x-int(img.get_width()/2), y))
