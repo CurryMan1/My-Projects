@@ -1,6 +1,6 @@
 from customtkinter import *
 from CTkListbox import *
-from pygame import *
+from pygame import mixer
 import os, math, datetime, random
 
 root = CTk()
