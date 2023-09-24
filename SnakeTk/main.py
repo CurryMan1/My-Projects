@@ -9,9 +9,10 @@ class Game:
         self.board_width = 40
         self.squares = [[] for i in range(self.board_width)]
         self.snake = []
-        self.path = []
-        self.delay = 200
-        self.direction_x, self.direction_y = 1, 0
+        self.sequence = []
+        self.delay = 100
+        self.changed = False
+        self.dir_x, self.dir_y = 1, 0
 
         #bind arrows
         root.bind('<Key>', self.change_direction)
@@ -32,30 +33,64 @@ class Game:
         self.move_snake()
 
         #fruit
-        self.squares[randint(0, self.board_width)][randint(0, self.board_width)]['bg'] = 'red'
+        self.squares[randint(0, self.board_width-1)][randint(0, self.board_width-1)]['bg'] = 'red'
 
     def change_direction(self, event):
-        if event.keysym in ['Up', 'Down', 'Left', 'Right']:
+        print('yo')
+        if event.keysym in ['Up', 'Down', 'Left', 'Right'] and not self.changed:
             key = event.keysym[0]
+            self.changed = True
             if key in 'UD':
-                if self.direction_y == 0 or len(self.snake) == 1:
+                if self.dir_y == 0 or len(self.snake) == 1:
                     if key == 'U':
-                        self.direction_x, self.direction_y = 0, -1
+                        self.dir_x, self.dir_y = 0, -1
                     else:
-                        self.direction_x, self.direction_y = 0, 1
+                        self.dir_x, self.dir_y = 0, 1
             else:
-                if self.direction_x == 0 or len(self.snake) == 1:
+                if self.dir_x == 0 or len(self.snake) == 1:
                     if key == 'L':
-                        self.direction_x, self.direction_y = -1, 0
+                        self.dir_x, self.dir_y = -1, 0
                     else:
-                        self.direction_x, self.direction_y = 1, 0
+                        self.dir_x, self.dir_y = 1, 0
 
     def move_snake(self):
-        for i, part in enumerate(self.snake):
+        self.changed = False
+        sequence = self.sequence[:]
+        print(len(self.snake)-1 == len(self.sequence))
+        del sequence[len(self.snake)-1::]
+        print(len(self.snake) - 1 == len(self.sequence), '\n')
+        i = 0
+        while i < len(self.snake):
+            part = self.snake[i]
             y, x = self.get_pos(part)
-            square = self.squares[y][x]
-            new_square = self.squares[(y+self.direction_y) % self.board_width][(x+self.direction_x) % self.board_width]
-            print(self.squares[y + self.direction_y % self.board_width][(x + self.direction_x) % self.board_width], new_square)
+            if i == 0:
+                dir_y, dir_x = self.dir_y, self.dir_x
+                new_sq = self.squares[(y + dir_y) % self.board_width][(x + dir_x) % self.board_width]
+                self.sequence.insert(0, (self.dir_y, self.dir_x))
+                if new_sq['bg'] == 'red':
+                    #fruit
+                    self.squares[randint(0, self.board_width - 1)][randint(0, self.board_width - 1)]['bg'] = 'red'
+
+                    sequence.insert(0, (self.dir_y, self.dir_x))
+
+                    #new part
+                    end_y, end_x = self.get_pos(self.snake[-1])
+                    end_dir_y, end_dir_x = sequence[-1]
+
+                    new_part = self.squares[(end_y+(-1*end_dir_y)) % self.board_width][(end_x+(-1*end_dir_x)) % self.board_width]
+                    new_part['bg'] = 'green'
+                    self.snake.append(new_part)
+            else:
+                dir_y, dir_x = sequence[i-1]
+                new_sq = self.squares[(y + dir_y) % self.board_width][(x + dir_x) % self.board_width]
+
+            part['bg'] = 'black'
+            new_sq['bg'] = 'green'
+
+            self.snake[i] = new_sq
+            i+=1
+
+        del self.sequence[len(self.snake)-1::]
 
         root.after(self.delay, self.move_snake)
 
@@ -67,7 +102,6 @@ class Game:
                     if square == row_sqr:
                         x = j
                         return y, x
-        raise ValueError('Square not in grid')
 
 root = tk.Tk()
 root.title('Snake')
