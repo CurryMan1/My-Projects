@@ -16,21 +16,42 @@ buttons = []
 
 selected_colour = 'Black'
 colours = ['Black', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Grey', 'White', '#964B00']
-current_x, current_y = 0,0
+pen_down = False
 
 def tksleep(self, time:float) -> None:
     self.after(int(time*1000), self.quit)
     self.mainloop()
 Misc.tksleep = tksleep
 
-def locate_xy(event):
-    global current_x, current_y
-    current_x, current_y = event.x, event.y
+def make_pen_down(event):
+    global pen_down
+    pen_down = True
+    pen_thickness = thickness.get()
 
-def addLine(event):
-    global current_x, current_y
-    canvas.create_line(current_x, current_y, event.x, event.y, fill=selected_colour, width=thickness.get())
-    current_x, current_y = event.x, event.y
+    if pen_down:
+        canvas.create_oval(event.x - pen_thickness,
+                           event.y - pen_thickness,
+                           event.x + pen_thickness,
+                           event.y + pen_thickness,
+                           fill=selected_colour,
+                           outline=selected_colour)
+
+def add_line(event):
+    global pen_down
+
+    pen_thickness = thickness.get()
+
+    if pen_down:
+        canvas.create_oval(event.x-pen_thickness,
+                           event.y-pen_thickness,
+                           event.x+pen_thickness,
+                           event.y+pen_thickness,
+                           fill=selected_colour,
+                           outline=selected_colour)
+
+def make_pen_up(event):
+    global pen_down
+    pen_down = False
 
 def change(colour):
     global selected_colour
@@ -77,11 +98,12 @@ for colour in colours:
     buttons.append(button)
 
 Label(buttons_frame, text='Pen Thickness', bg='grey').grid(columnspan=12)
-thickness = Scale(buttons_frame, from_=0, to=250, bg='grey', orient=HORIZONTAL, length=950)
+thickness = Scale(buttons_frame, from_=1, to=250, bg='grey', orient=HORIZONTAL, length=950)
 thickness.grid(columnspan=12)
 
-canvas.bind('<Button-1>', locate_xy)
-canvas.bind('<B1-Motion>', addLine)
+canvas.bind('<Button-1>', make_pen_down)
+canvas.bind('<B1-Motion>', add_line)
+canvas.bind('<ButtonRelease-1>', make_pen_up)
 
 buttons_frame.grid(row=1, column=0)
 root.mainloop()

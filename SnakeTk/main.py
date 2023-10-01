@@ -13,6 +13,7 @@ class Game:
         self.delay = 100
         self.changed = False
         self.dir_x, self.dir_y = 1, 0
+        self.new_part = False
 
         #bind arrows
         root.bind('<Key>', self.change_direction)
@@ -55,42 +56,11 @@ class Game:
 
     def move_snake(self):
         self.changed = False
+        self.new_part = False
         sequence = self.sequence[:]
-        print(len(self.snake)-1 == len(self.sequence))
-        del sequence[len(self.snake)-1::]
-        print(len(self.snake) - 1 == len(self.sequence), '\n')
-        i = 0
-        while i < len(self.snake):
-            part = self.snake[i]
+        for i, part in enumerate(self.snake):
             y, x = self.get_pos(part)
-            if i == 0:
-                dir_y, dir_x = self.dir_y, self.dir_x
-                new_sq = self.squares[(y + dir_y) % self.board_width][(x + dir_x) % self.board_width]
-                self.sequence.insert(0, (self.dir_y, self.dir_x))
-                if new_sq['bg'] == 'red':
-                    #fruit
-                    self.squares[randint(0, self.board_width - 1)][randint(0, self.board_width - 1)]['bg'] = 'red'
-
-                    sequence.insert(0, (self.dir_y, self.dir_x))
-
-                    #new part
-                    end_y, end_x = self.get_pos(self.snake[-1])
-                    end_dir_y, end_dir_x = sequence[-1]
-
-                    new_part = self.squares[(end_y+(-1*end_dir_y)) % self.board_width][(end_x+(-1*end_dir_x)) % self.board_width]
-                    new_part['bg'] = 'green'
-                    self.snake.append(new_part)
-            else:
-                dir_y, dir_x = sequence[i-1]
-                new_sq = self.squares[(y + dir_y) % self.board_width][(x + dir_x) % self.board_width]
-
-            part['bg'] = 'black'
-            new_sq['bg'] = 'green'
-
-            self.snake[i] = new_sq
-            i+=1
-
-        del self.sequence[len(self.snake)-1::]
+            # we'll start again
 
         root.after(self.delay, self.move_snake)
 
