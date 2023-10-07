@@ -111,7 +111,6 @@ class Player(pygame.sprite.Sprite):
         self.jump_count = 0
 
     def hit_head(self):
-        self.count = 0
         self.y_vel *= -1
 
     def update_sprite(self):
