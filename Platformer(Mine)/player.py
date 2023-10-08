@@ -2,7 +2,7 @@ import pygame
 
 class Player(pygame.sprite.Sprite):
     ANIMATION_DELAY = 3
-    GRAVITY = 1
+    GRAVITY = 0.9
     SPEED = 5
     JUMP_POWER = -17
 
@@ -21,19 +21,16 @@ class Player(pygame.sprite.Sprite):
         self.clicked = False
         self.jump_count = 2
 
-        self.can_move_horizontal = True
-
         #display
         self.image = self.animations[f'{self.cur_animation}_{self.direction}'][self.animation_count % self.ANIMATION_DELAY]
         self.rect = self.image.get_rect(topleft=(x, y))
         self.mask = pygame.mask.from_surface(self.image)
 
     def move(self, x, y):
-        if self.can_move_horizontal:
-            self.rect.x += x
+        self.rect.x += x
         self.rect.y += y
 
-    #HANDLE COLLISION AND ANIMATIONS IN GAME LOOP
+    #HANDLE COLLISIONS AND VELOCITY IN GAME LOOP
     def update(self):
         #gravity
         self.y_vel += self.GRAVITY

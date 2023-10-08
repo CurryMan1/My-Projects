@@ -29,17 +29,23 @@ CLOCK = pygame.time.Clock()
 pygame.display.set_caption('Dimension')
 
 #img
-title = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Text', 'title.png')), 10)
+title = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'title.png')), 10)
 bg = pygame.transform.scale_by(pygame.image.load(join('assets', 'Background', 'bg.jpg')), 0.4)
 
 play_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Buttons', 'Play.png')), 5)
 levels_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Buttons', 'Levels.png')), 5)
-mb_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Levels', 'MenuBox.png')), 10)
+settings_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Buttons', 'Settings.png')), 4)
+level_mb_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'LevelMenuBox.png')), 10)
+settings_mb_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'SettingsMenuBox.png')), 10)
 back_img = pygame.image.load(join('assets', 'Menu', 'Buttons', 'Back.png'))
 
-def load_animations(path, direction=False):
+def load_animations(path, width, height, direction=False, scale=None, choosing_player=False):
     animations = {}
-    sheets = listdir(path)
+    if choosing_player:
+        sheets = ['idle.png']
+    else:
+        sheets = listdir(path)
+
     for sheet in sheets:
         #base image
         sprite_sheet = pygame.image.load(f'{path}/{sheet}')
@@ -48,11 +54,15 @@ def load_animations(path, direction=False):
         #list of all images IN base image
         sheet_list = []
 
-        for i in range(int(sprite_sheet.get_width() / 32)):
-            surface = pygame.Surface((32, 32), pygame.SRCALPHA, 32)
-            rect = pygame.Rect(i * 32, 0, 32, 32)
+        for i in range(int(sprite_sheet.get_width() / width)):
+            surface = pygame.Surface((width, height), pygame.SRCALPHA, 32)
+            rect = pygame.Rect(i * width, 0, width, height)
             surface.blit(sprite_sheet, (0, 0), rect)
             sheet_list.append(pygame.transform.scale2x(surface))
+
+        if scale:
+            sheet_list = [pygame.transform.scale_by(f, scale) for f in sheet_list]
+
         if direction:
             flipped_sheet_list = [pygame.transform.flip(f, True, False) for f in sheet_list]
 
@@ -64,11 +74,11 @@ def load_animations(path, direction=False):
     return animations
 
 def get_block(size, level):
-    size = int(size/2)
+    size = size//2
     path = join("assets", "Terrain", "Terrain.png")
     image = pygame.image.load(path).convert_alpha()
     surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
-    rect = pygame.Rect(96, (level//16)*64, size, size)
+    rect = pygame.Rect(96, (level//20)*64, size, size)
     surface.blit(image, (0, 0), rect)
     return pygame.transform.scale2x(surface)
 
@@ -86,8 +96,13 @@ def vertical_collide(player, objects, dy):
         if dy > 0:
             #on top
             player.rect.bottom = obj.rect.top
-            player.y_vel = 0
             player.jump_count = 0
+            if obj.name == 'trampoline':
+                player.y_vel = obj.power
+                player.jump_count = 2
+                obj.cur_animation = 'jump'
+            else:
+                player.y_vel = 0
         elif dy < 0:
             #hit head
             player.rect.top = obj.rect.bottom
@@ -98,9 +113,11 @@ def vertical_collide(player, objects, dy):
 class Game():
     def __init__(self):
         self.data = json.load(open(join('assets', 'Data', 'level1.json'), 'r'))
-        self.chosen_character = 'NinjaFrog'
+        self.chosen_character = 'VirtualGuy'
 
-        self.player = Player(0, 0, load_animations(join('assets', 'MainCharacters', self.chosen_character), True))
+        animations = load_animations(join('assets', 'MainCharacters', self.chosen_character), 32, 32, True)
+
+        self.player = Player(200, 0, animations)
         self.player_group = pygame.sprite.GroupSingle()
         self.player_group.add(self.player)
 
@@ -115,6 +132,10 @@ class Game():
                             int(HEIGHT / 2),
                             levels_img)
 
+        settings_btn = Button(WIDTH-settings_img.get_width(),
+                            0,
+                            settings_img)
+
         while 1:
             CLOCK.tick(FPS)
 
@@ -127,6 +148,9 @@ class Game():
 
             if levels_btn.is_clicked(SCREEN):
                 self.choose_level()
+
+            if settings_btn.is_clicked(SCREEN):
+                self.settings()
 
             #event
             for event in pygame.event.get():
@@ -154,7 +178,7 @@ class Game():
             #bg
             SCREEN.blit(bg, (-150, 0))
 
-            SCREEN.blit(mb_img, (25, 145))
+            SCREEN.blit(level_mb_img, (25, 145))
 
 
             #level_btns
@@ -173,26 +197,69 @@ class Game():
 
             pygame.display.update()
 
+    def settings(self):
+        '''
+        NEXT TIME
+        -Finish the player selection menu
+        -Make a volume slider
+        '''
+        back_button = Button(0, 0, back_img, 6)
+
+        main_characters = ['MaskDude', 'NinjaFrog', 'PinkMan', 'VirtualGuy']
+        main_char_animations = {}
+        for char in main_characters:
+            main_char_animations[char] = load_animations(join('assets', 'MainCharacters', char), 32, 32, False, None, True)
+
+        player1, player2, player3 = shown_players = ['MaskDude', 'NinjaFrog', 'PinkMan']
+        animation_count = 0
+
+        #loop
+        while 1:
+            CLOCK.tick(FPS)
+
+            #bg
+            SCREEN.blit(bg, (-150, 0))
+
+            SCREEN.blit(settings_mb_img, (25, 50))
+
+            if back_button.is_clicked(SCREEN):
+                self.start()
+
+            #event
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    raise SystemExit
+
+            pygame.display.update()
+
     def go_level(self, level):
         objects = pygame.sprite.Group()
         blocks = pygame.sprite.Group()
+        trampolines = pygame.sprite.Group()
 
-        for i in range(19):
-            blocks.add(Block(i * BLOCK_SIZE - 1000, HEIGHT - BLOCK_SIZE, BLOCK_SIZE, get_block(BLOCK_SIZE, level)))
+        #blocks
+        for i in range(30):
+            blocks.add(Block(i * BLOCK_SIZE - 1000, HEIGHT - BLOCK_SIZE, BLOCK_SIZE, get_block(BLOCK_SIZE, level), 'block'))
 
-        blocks.add(Block(400, HEIGHT-(3.5*BLOCK_SIZE), BLOCK_SIZE, get_block(BLOCK_SIZE, level)))
+        blocks.add(Block(400, HEIGHT-(4*BLOCK_SIZE), BLOCK_SIZE, get_block(BLOCK_SIZE, level), 'block'))
+
+        #trampoline
+        animations = load_animations(join('assets', 'Traps', 'Trampoline'), 28, 28, False, 2)
+        trampoline = Trampoline(40, HEIGHT - BLOCK_SIZE - 28*4, 28, 28, animations, -28, 'trampoline')
+        trampolines.add(trampoline)
 
         #bg
         bg = pygame.surface.Surface((WIDTH, HEIGHT))
+        segment = pygame.image.load(join('assets', 'Background', listdir(join('assets', 'Background'))[level%7+1]))
         for x in range(0, ceil(WIDTH / 64) * 64, 64):
             for y in range(0, ceil(HEIGHT / 64) * 64, 64):
-                bg.blit(pygame.image.load(join('assets', 'Background', 'Brown.png')), (x, y))
+                bg.blit(segment, (x, y))
 
         #final group
-        objects.add(blocks)
+        objects.add(blocks, trampolines)
 
-        #offset
-        offsetx = 0
+        #area size
+        scroll_area_size = 200
 
         #game loop
         while 1:
@@ -200,7 +267,8 @@ class Game():
 
             SCREEN.blit(bg, (0, 0))
 
-            #offset objects
+            #offset
+            offset_x = 0
 
             objects.draw(SCREEN)
             objects.update()
@@ -214,7 +282,7 @@ class Game():
             collide_left = horizontal_collide(self.player, objects, -self.player.SPEED * 2)
             collide_right = horizontal_collide(self.player, objects, self.player.SPEED * 2)
 
-            #keys
+            #keys, animations
             keys = pygame.key.get_pressed()
             self.player.x_vel = 0
             self.player.cur_animation = 'idle'
@@ -245,7 +313,18 @@ class Game():
             else:
                 self.player.clicked = False
 
+            #offset
+            x_pos = self.player.rect.centerx
+            if (x_pos < scroll_area_size and self.player.x_vel < 0)\
+                    or\
+                (x_pos > WIDTH-scroll_area_size and self.player.x_vel > 0):
 
+                offset_x = -self.player.x_vel
+                self.player.x_vel = 0
+
+            #update offset for each obj
+            for obj in objects:
+                obj.offset_x = offset_x
 
             #event
             for event in pygame.event.get():
