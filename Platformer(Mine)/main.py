@@ -6,9 +6,10 @@ from os import listdir
 from os.path import join
 
 #files
-from button import Button
-from player import Player
+from button import *
+from player import *
 from objects import *
+from menubox import *
 
 #initialise pygame
 pygame.init()
@@ -35,8 +36,8 @@ bg = pygame.transform.scale_by(pygame.image.load(join('assets', 'Background', 'b
 play_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Buttons', 'Play.png')), 5)
 levels_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Buttons', 'Levels.png')), 5)
 settings_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Buttons', 'Settings.png')), 4)
-level_mb_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'LevelMenuBox.png')), 10)
-settings_mb_img = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'SettingsMenuBox.png')), 10)
+choose_character = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'choose_character.png')), 6)
+choose_level = pygame.transform.scale_by(pygame.image.load(join('assets', 'Menu', 'Extra', 'choose_level.png')), 6)
 back_img = pygame.image.load(join('assets', 'Menu', 'Buttons', 'Back.png'))
 
 def load_animations(path, width, height, direction=False, scale=None, choosing_player=False):
@@ -62,6 +63,9 @@ def load_animations(path, width, height, direction=False, scale=None, choosing_p
 
         if scale:
             sheet_list = [pygame.transform.scale_by(f, scale) for f in sheet_list]
+
+        if choosing_player:
+            return sheet_list
 
         if direction:
             flipped_sheet_list = [pygame.transform.flip(f, True, False) for f in sheet_list]
@@ -146,10 +150,10 @@ class Game():
             if play_btn.is_clicked(SCREEN):
                 self.go_level(0)
 
-            if levels_btn.is_clicked(SCREEN):
+            elif levels_btn.is_clicked(SCREEN):
                 self.choose_level()
 
-            if settings_btn.is_clicked(SCREEN):
+            elif settings_btn.is_clicked(SCREEN):
                 self.settings()
 
             #event
@@ -162,13 +166,16 @@ class Game():
     def choose_level(self):
         back_button = Button(0, 0, back_img, 6)
 
+        #menubox
+        mb = MenuBox(25, 150, 950, 500)
+
         #level_btns
         level_btns = []
         for y in range(5):
             for x in range(10):
                 level_no = f'{y*10 + (x + 1):02}'
                 level_img = pygame.image.load(join('assets', 'Menu', 'Levels', f'{level_no}.png'))
-                button = Button(x*90 + 50, y*90 + 175, level_img, 4.5)
+                button = Button(x*90 + 52, y*90 + 182, level_img, 4.5)
                 level_btns.append(button)
 
         #loop
@@ -178,8 +185,8 @@ class Game():
             #bg
             SCREEN.blit(bg, (-150, 0))
 
-            SCREEN.blit(level_mb_img, (25, 145))
-
+            #menubox
+            mb.draw(SCREEN)
 
             #level_btns
             for i, level in enumerate(level_btns):
@@ -203,15 +210,26 @@ class Game():
         -Finish the player selection menu
         -Make a volume slider
         '''
+
+        #back button
         back_button = Button(0, 0, back_img, 6)
 
+        #menubox
+        mb = MenuBox(25, 25, 950, 750)
+
+        #players
         main_characters = ['MaskDude', 'NinjaFrog', 'PinkMan', 'VirtualGuy']
         main_char_animations = {}
         for char in main_characters:
-            main_char_animations[char] = load_animations(join('assets', 'MainCharacters', char), 32, 32, False, None, True)
+            main_char_animations[char] = load_animations(join('assets', 'MainCharacters', char), 32, 32, False, 3, True)
 
-        player1, player2, player3 = shown_players = ['MaskDude', 'NinjaFrog', 'PinkMan']
+        shown_players = ['MaskDude', 'NinjaFrog', 'PinkMan']
+        positions = [(150, 170), (WIDTH/2-160, 170), (WIDTH-342, 170)]
         animation_count = 0
+        delay = 3
+
+        #size middle char
+        main_char_animations[shown_players[1]] = [pygame.transform.scale_by(img, 5/3) for img in main_char_animations['NinjaFrog']]
 
         #loop
         while 1:
@@ -220,7 +238,20 @@ class Game():
             #bg
             SCREEN.blit(bg, (-150, 0))
 
-            SCREEN.blit(settings_mb_img, (25, 50))
+            #menubox
+            mb.draw(SCREEN)
+
+            #choose_character.png
+            SCREEN.blit(choose_character, (int(WIDTH/2-choose_character.get_width()/2), 62))
+
+            #animation
+            for i, player in enumerate(shown_players):
+                SCREEN.blit((main_char_animations[player][animation_count//delay]), positions[i])
+
+            if animation_count < len(main_char_animations['MaskDude'])*delay-1:
+                animation_count += 1
+            else:
+                animation_count = 0
 
             if back_button.is_clicked(SCREEN):
                 self.start()
