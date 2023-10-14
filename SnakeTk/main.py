@@ -6,14 +6,15 @@ class Game:
         #game vars
         self.root = root
         self.game_frame = tk.Frame(root)
-        self.board_width = 40
+        self.board_width = 30
         self.squares = [[] for i in range(self.board_width)]
-        self.snake = []
-        self.sequence = []
-        self.delay = 100
-        self.changed = False
         self.dir_x, self.dir_y = 1, 0
-        self.new_part = False
+        self.snake = [(self.board_width // 2, self.board_width // 2)]
+        self.delay = 100
+        self.score = 0
+
+        #for keys
+        self.changed = False
 
         #bind arrows
         root.bind('<Key>', self.change_direction)
@@ -28,16 +29,13 @@ class Game:
             square.grid(row=i//self.board_width, column=i%self.board_width)
             self.squares[i//self.board_width].append(square)
 
+        #fruit
+        self.new_fruit()
+
         #snake
-        self.squares[int(self.board_width/2)][int(self.board_width/2)]['bg'] = 'green'
-        self.snake.append(self.squares[int(self.board_width/2)][int(self.board_width/2)])
         self.move_snake()
 
-        #fruit
-        self.squares[randint(0, self.board_width-1)][randint(0, self.board_width-1)]['bg'] = 'red'
-
     def change_direction(self, event):
-        print('yo')
         if event.keysym in ['Up', 'Down', 'Left', 'Right'] and not self.changed:
             key = event.keysym[0]
             self.changed = True
@@ -56,22 +54,40 @@ class Game:
 
     def move_snake(self):
         self.changed = False
-        self.new_part = False
-        sequence = self.sequence[:]
-        for i, part in enumerate(self.snake):
-            y, x = self.get_pos(part)
-            # we'll start again
 
-        root.after(self.delay, self.move_snake)
+        new_head = ((self.snake[0][0] + self.dir_x)%self.board_width, (self.snake[0][1] + self.dir_y)%self.board_width)
+        if new_head in self.snake:
+            self.game_over()
+            return
 
-    def get_pos(self, square):
-        for i, row in enumerate(self.squares):
-            if square in row:
-                y = i
-                for j, row_sqr in enumerate(row):
-                    if square == row_sqr:
-                        x = j
-                        return y, x
+        if new_head == self.fruit_pos:
+            self.new_fruit()
+        else:
+            tail = self.snake.pop()
+            self.squares[tail[1]][tail[0]]['bg'] = 'black'
+
+        self.snake.insert(0, new_head)
+
+        self.draw_snake()
+
+        self.root.after(self.delay, self.move_snake)
+
+    def new_fruit(self):
+        self.score += 1
+        while True:
+            self.fruit_pos = (randint(0, self.board_width-1), randint(0, self.board_width-1))
+            if self.fruit_pos not in self.snake:
+                x, y = self.fruit_pos
+                self.squares[y][x]['bg'] = 'red'
+                break
+
+    def game_over(self):
+        win = tk.Toplevel(root)
+        tk.Label(win, text=f'You Lost!\nScore: {self.score}', font='helvetica 25 bold').pack()
+
+    def draw_snake(self):
+        for x, y in self.snake:
+            self.squares[y][x]['bg'] = 'green'
 
 root = tk.Tk()
 root.title('Snake')
