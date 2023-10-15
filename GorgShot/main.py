@@ -102,12 +102,14 @@ class Game:
                     self.volume_btn.rect = self.volume_btn.image.get_rect(topleft=(10, 10))
                     self.gunshot.set_volume(0)
                     self.gun_empty.set_volume(0)
+                    self.grunt.set_volume(0)
                     pygame.mixer.music.pause()
                 else:
                     self.volume_btn.image = self.volume_on_img
                     self.volume_btn.rect = self.volume_btn.image.get_rect(topleft=(10, 10))
                     self.gunshot.set_volume(0.5)
                     self.gun_empty.set_volume(0.5)
+                    self.grunt.set_volume(1)
                     pygame.mixer.music.unpause()
 
             if self.github_btn.is_clicked(DISPLAY):
