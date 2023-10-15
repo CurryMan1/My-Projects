@@ -1,0 +1,8 @@
+How To Play GorgShot
+
+The aim of the game is to shoot as many bullets as possible without dying.
+
+Rules:
+-You die by touching the bottom of the screen.
+-Every time you shoot a bullet, your score increases by 1.
+-Bullets, when shot, send you flying. You should use this knock-back to collect more bullets which spawn around the screen
