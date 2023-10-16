@@ -207,7 +207,7 @@ class Game:
                         #get pos difference between mouse and player
                         x, y = player_x-mouse_x, player_y-mouse_y
 
-                        m_x, m_y = abs(y) and x / abs(x) or 0, abs(y) and y / abs(y) or 0 #1 or -1
+                        m_x, m_y = abs(x) and x / abs(x) or 0, abs(y) and y / abs(y) or 0 #1 or -1
 
                         #set positive (for ratios)
                         x, y = abs(x), abs(y)
