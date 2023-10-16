@@ -14,7 +14,7 @@ By no means is this an original idea, I am copying it for fun.
 #initialise
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.set_volume(0.7)
+pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.load('assets/sound/background_song.mp3')
 pygame.mixer.music.play(-1)
 
@@ -73,8 +73,8 @@ class Game:
         self.gunshot = pygame.mixer.Sound('assets/sound/gunshot.mp3')
         self.gun_empty = pygame.mixer.Sound('assets/sound/gun_empty.wav')
         self.grunt = pygame.mixer.Sound('assets/sound/grunt.mp3')
-        self.gunshot.set_volume(0.5)
-        self.gun_empty.set_volume(0.5)
+        self.gunshot.set_volume(0.2)
+        self.gun_empty.set_volume(0.2)
 
         #buttons
         self.volume_btn = Button(10, 10, self.volume_on_img)
@@ -107,8 +107,8 @@ class Game:
                 else:
                     self.volume_btn.image = self.volume_on_img
                     self.volume_btn.rect = self.volume_btn.image.get_rect(topleft=(10, 10))
-                    self.gunshot.set_volume(0.5)
-                    self.gun_empty.set_volume(0.5)
+                    self.gunshot.set_volume(0.2)
+                    self.gun_empty.set_volume(0.2)
                     self.grunt.set_volume(1)
                     pygame.mixer.music.unpause()
 
