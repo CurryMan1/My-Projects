@@ -1,4 +1,6 @@
 import pygame
+import random
+from math import floor
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, image: pygame.surface.Surface):
@@ -17,7 +19,7 @@ class Entity(pygame.sprite.Sprite):
 
 class Spaceship(Entity):
     ENGINE_POWER = 15
-    SHOOTING_POWER = 25
+    BULLET_SPEED = 25
     SHOOTING_DELAY = 20
     AIR_RESISTANCE = 0.95 #for timesing
 
@@ -57,9 +59,9 @@ class Spaceship(Entity):
 class Bullet(Entity):
     BOUND = 100
 
-    def __init__(self, x: int, y: int, x_vel: float, y_vel: float, angle: float):
+    def __init__(self, x: int, y: int, x_vel: float, y_vel: float, angle: float, colour):
         image = pygame.surface.Surface((20, 5), pygame.SRCALPHA)
-        image.fill((192, 255, 238))
+        image.fill(colour)
         image = pygame.transform.rotate(image, angle)
         super().__init__(x, y, image)
         self.mask = pygame.mask.from_surface(self.image)
@@ -73,20 +75,52 @@ class Bullet(Entity):
             return True
 
 class Rock(Entity):
-    BOUND = 300
+    BOUND = 3000
 
-    def __init__(self, x: int, y: int, images: list):
-        super().__init__(x, y, images[0])
-        self.images = images
+    def __init__(self, x: int, y: int, angle: int, size: int, hp: int, images: list):
+        self.images = [pygame.transform.rotate(i, angle) for i in images]
+        super().__init__(x, y, self.images[-len(self.images)])
         self.mask = pygame.mask.from_surface(self.image)
-        self.health = 100
+        self.max_hp = hp
+        self.hp = hp
+        self.size = size
+        self.cur_animation = -len(self.images)
 
     def update(self, width, height, player_x_vel, player_y_vel):
+        #check health
+        if self.hp <= 0:
+            return 'dead'
+
+        cur_animation = self.cur_animation
+
         self.rect.centerx += player_x_vel
         self.rect.centery += player_y_vel
 
+        self.cur_animation = floor(-(self.hp/self.max_hp*4))
+        if cur_animation != self.cur_animation:
+            self.image = self.images[round(self.cur_animation)]
+
         if self.get_bound(width, height, self.BOUND):
-            return True
+            return 'out of bound'
 
     def hit(self, damage):
-        self.health -= damage
+        self.hp -= damage
+
+class Coin(Entity):
+    BOUND = 3000
+    AIR_RESISTANCE = 0.95
+
+    def __init__(self, x: int, y: int, image: pygame.surface.Surface, vel: int):
+        super().__init__(x, y, image)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.x_vel, self.y_vel = random.randint(-vel, vel), random.randint(-vel, vel)
+
+    def update(self, width, height, player_x_vel, player_y_vel):
+        self.rect.centerx += self.x_vel + player_x_vel
+        self.rect.centery += self.y_vel + player_y_vel
+
+        self.x_vel *= self.AIR_RESISTANCE
+        self.y_vel *= self.AIR_RESISTANCE
+
+        if self.get_bound(width, height, self.BOUND):
+            return 'out of bound'
