@@ -3,10 +3,10 @@ import pygame
 import webbrowser
 import random
 from math import ceil
-from os import listdir
 #files
+from utils import *
 from entities import *
-from button import *
+from ui import *
 
 pygame.init()
 pygame.mouse.set_visible(False)
@@ -17,15 +17,6 @@ CLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 DISPLAY = pygame.surface.Surface((WIDTH, HEIGHT))
 pygame.display.set_caption('Space Game idk')
-
-#colour
-COFFEE_BLUE = (192, 255, 238)
-RED = (255, 0, 0)
-ORANGE = (255, 115, 59)
-YELLOW = (255, 255, 0)
-
-#font
-PIXEL_FONT = 'assets/other/pixel_font.ttf'
 
 MAX_ROCKS = 20
 
@@ -55,45 +46,6 @@ def get_new_rock(player, rocks):
             break
 
     return rock
-
-def load_img(path, transparent=False, scale=None, rotate=None):
-    img = pygame.image.load('assets/img/'+path)
-
-    if scale:
-        img = pygame.transform.scale_by(img, scale)
-
-    if rotate:
-        img = pygame.transform.rotate(img, rotate)
-
-    if transparent:
-        img = img.convert_alpha()
-    else:
-        img = img.convert()
-
-    return img
-
-def load_imgs(path, transparent=False, scale=None, rotate=None):
-    images = []
-
-    for file in listdir(f'assets/img/{path}'):
-        img = load_img(f'{path}/{file}', transparent, scale, rotate)
-        images.append(img)
-
-    return images
-
-def load_sound(path, volume=None):
-    sound = pygame.mixer.Sound('assets/sound/'+path)
-    if volume:
-        sound.set_volume(volume)
-
-    return sound
-
-def draw_text(text, font, fg, x, y, size, surf, opacity=None):
-    font = pygame.font.Font(font, size)
-    img = font.render(text, True, fg)
-    if opacity:
-        img.set_alpha(opacity)
-    surf.blit(img, (x, y))
 
 class Game():
     def __init__(self):
@@ -126,7 +78,6 @@ class Game():
         for i in range(MAX_ROCKS):
             rock = get_new_rock(self.player, self.rock_group)
             self.rock_group.append(rock)
-        print(self.rock_group)
 
         #particles [pos, velocity, timer, speed, colour]
         self.particles = []
@@ -141,6 +92,9 @@ class Game():
 
     def main(self):
         screen_shake = 0
+
+        sliding_m = SlidingMenu(WIDTH / 2, HEIGHT, WIDTH - 50, 210, DARK_BLUE, WHITE, 10, [])
+        shop_btn = Button(WIDTH - 120, 10, 110, 50, DARK_BLUE, WHITE, 7, 'SHOP', 30, WHITE)
         while True:
             CLOCK.tick(FPS)
 
@@ -150,7 +104,6 @@ class Game():
             keys = pygame.key.get_pressed()
 
             if (keys[pygame.K_SPACE] or mouse_btns[2]) or mouse_btns[0]:
-
                 if not self.player.on_cooldown:
                     if keys[pygame.K_SPACE] or mouse_btns[2]:
                         self.player.x_vel, self.player.y_vel = \
@@ -159,7 +112,7 @@ class Game():
 
                 #shoot bullet?
                 if mouse_btns[0]:
-                    if self.player.SHOOTING_DELAY == self.player.last_shot:
+                    if self.player.shooting_delay == self.player.last_shot:
                         bullet = Bullet(*self.player.rect.center,
                                         *calculate_kb(pygame.mouse.get_pos(), self.player.rect.center, self.player.BULLET_SPEED),
                                         self.player.angle, COFFEE_BLUE)
@@ -242,7 +195,12 @@ class Game():
                     self.particles.remove(particle)
 
             #ui
-            draw_text(str(self.coins), PIXEL_FONT, YELLOW, 10, 5, 50, DISPLAY)
+            draw_text(str(self.coins), PIXEL_FONT, YELLOW, 15, 10, 50, DISPLAY)
+
+            sliding_m.update(DISPLAY, HEIGHT)
+            if shop_btn.is_clicked(DISPLAY):
+                print('clicked')
+                sliding_m.toggle()
 
             #crosshair
             DISPLAY.blit(self.crosshair, (mouse_pos[0]-self.crosshair.get_width()/2, mouse_pos[1]-self.crosshair.get_height()/2))

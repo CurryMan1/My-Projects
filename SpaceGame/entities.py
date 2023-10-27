@@ -20,20 +20,23 @@ class Entity(pygame.sprite.Sprite):
 class Spaceship(Entity):
     ENGINE_POWER = 15
     BULLET_SPEED = 25
-    SHOOTING_DELAY = 20
     AIR_RESISTANCE = 0.95 #for timesing
 
     def __init__(self, x: int, y: int, images: list):
         super().__init__(x, y, images[0])
+
+        #(changeable) stats
+        self.damage = 5
+        self.shooting_delay = 20
+
         self.mask = pygame.mask.from_surface(self.image)
         self.og_img = self.image
         self.images = images
-        self.last_shot = self.SHOOTING_DELAY
+        self.last_shot = self.shooting_delay
         self.angle = 0
         self.x_vel, self.y_vel = 0, 0
 
         self.on_cooldown = False
-        self.damage = 5
 
     def update(self):
         x, y = pygame.mouse.get_pos()
@@ -46,7 +49,7 @@ class Spaceship(Entity):
         self.x_vel *= self.AIR_RESISTANCE
         self.y_vel *= self.AIR_RESISTANCE
 
-        if self.last_shot < self.SHOOTING_DELAY:
+        if self.last_shot < self.shooting_delay:
             self.last_shot += 1
 
         if self.og_img == self.images[1]:
