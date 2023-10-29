@@ -20,6 +20,10 @@ pygame.display.set_caption('Space Game idk')
 
 MAX_ROCKS = 20
 
+'''
+finish upgrade buttons then enemies?????
+'''
+
 #functions
 def calculate_kb(pos1, pos2, power):
     #get pos difference between mouse and player
@@ -64,7 +68,7 @@ class Game():
         self.coin_group = []
 
         #bg
-        self.bgs = [load_img('starfield1.png', True, 15, 90 * r) for r in range(3)]
+        self.bgs = [load_img('starfield1.png', True, 15, 90 * r) for r in range(4)]
         self.bg_tiles = [[] for i in self.bgs]  #layers for parallax effect
         self.bg_w, self.bg_h = self.bgs[0].get_rect().size
         self.bg_dimensions = [ceil(WIDTH / self.bg_w) + 1, ceil(HEIGHT / self.bg_h) + 1]#0 is x, 1 is y
