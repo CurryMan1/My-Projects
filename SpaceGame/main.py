@@ -97,7 +97,8 @@ class Game():
     def main(self):
         screen_shake = 0
 
-        sliding_m = SlidingMenu(WIDTH / 2, HEIGHT, WIDTH - 50, 210, DARK_BLUE, WHITE, 10, [])
+        show_shop = 0
+
         shop_btn = Button(WIDTH - 120, 10, 110, 50, DARK_BLUE, WHITE, 7, 'SHOP', 30, WHITE)
         while True:
             CLOCK.tick(FPS)
@@ -201,10 +202,8 @@ class Game():
             #ui
             draw_text(str(self.coins), PIXEL_FONT, YELLOW, 15, 10, 50, DISPLAY)
 
-            sliding_m.update(DISPLAY, HEIGHT)
             if shop_btn.is_clicked(DISPLAY):
-                print('clicked')
-                sliding_m.toggle()
+                show_shop = 1-show_shop
 
             #crosshair
             DISPLAY.blit(self.crosshair, (mouse_pos[0]-self.crosshair.get_width()/2, mouse_pos[1]-self.crosshair.get_height()/2))
