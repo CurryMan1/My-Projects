@@ -14,7 +14,7 @@ def reset(new_fg, new_bg1, new_bg2):
     options['primary_bg'] = new_bg1
     options['secondary_bg'] = new_bg2
 
-    JsonManager.write(options_file, options)
+    JsonManager.write(OPTIONS_FILE, options)
 
     q.destroy()
     q = Quizzer()
@@ -83,7 +83,7 @@ class StartFrame(tk.Frame):
                 'correct_guesses': 0
             }
 
-            JsonManager.write(sets_file, sets)
+            JsonManager.write(SETS_FILE, sets)
 
             self.win.destroy()
 
@@ -188,7 +188,7 @@ class EditingFrame(tk.Frame):
             #delete set
             del sets[last_set]
             #go back to start frame
-            q.change_frame(EditingFrame, StartFrame, file_to_update=sets_file)
+            q.change_frame(EditingFrame, StartFrame, file_to_update=SETS_FILE)
         else:
             self.reset_event = self.after(3000, self.reset_set_button)
             self.delete_set_button.config(text='Are you sure?', bg='#8B0000')
@@ -260,7 +260,7 @@ class EntryFrame(tk.Frame):
             sets[q.last_set]['questions'][qa[0]] = {'answer': qa[1]}
 
             #switch frame (and update file)
-            q.change_frame(EntryFrame, EditingFrame, file_to_update=sets_file)
+            q.change_frame(EntryFrame, EditingFrame, file_to_update=SETS_FILE)
 
     def clear_entries(self):
         self.question_entry.delete('1.0', 'end')
@@ -413,7 +413,7 @@ class Quizzer(tk.Tk):
                     del sets[q.last_set]['questions'][q.frames[EntryFrame].last_question]
                     self.frames[EditingFrame].pack()
                     self.frames[EditingFrame].deleting = False
-                    file_to_update = sets_file
+                    file_to_update = SETS_FILE
 
             self.frames[self.next_frame].pack()
 
@@ -437,10 +437,10 @@ class Quizzer(tk.Tk):
 
         #handle files
         if file_to_update:
-            if file_to_update == sets_file:
-                JsonManager.write(sets_file, sets)
+            if file_to_update == SETS_FILE:
+                JsonManager.write(SETS_FILE, sets)
             else:
-                JsonManager.write(options_file, options_file)
+                JsonManager.write(OPTIONS_FILE, OPTIONS_FILE)
 
 
 if __name__ == '__main__':

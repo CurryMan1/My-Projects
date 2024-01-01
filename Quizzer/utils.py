@@ -37,11 +37,11 @@ def white_or_black(hex_) -> str:
 
 
 #files
-options_file = 'data/options.json'
-sets_file = 'data/sets.json'
+OPTIONS_FILE = 'data/options.json'
+SETS_FILE = 'data/sets.json'
 
-options = JsonManager.load(options_file)
-sets = JsonManager.load(sets_file)
+options = JsonManager.load(OPTIONS_FILE)
+sets = JsonManager.load(SETS_FILE)
 
 #constants
 FONT = ('helvetica', 60, 'bold')
