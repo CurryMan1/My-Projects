@@ -1,4 +1,5 @@
-import random, time
+import random
+import time
 from ui import *
 
 #pygame setup
@@ -42,9 +43,7 @@ def play(song: str):
     last_column = None
 
     music_playing = False
-    failed = False
     score = 0
-    lives = 3
 
     clicked = False
 
