@@ -3,7 +3,7 @@ from ui import *
 
 #pygame setup
 pygame.init()
-pygame.display.set_caption('Curry Tiles')
+pygame.display.set_caption('Piano Tiles')
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 display = pygame.surface.Surface((WIDTH, HEIGHT))
