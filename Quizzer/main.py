@@ -307,8 +307,12 @@ class EntryFrame(tk.Frame):
     def add_question(self):
         #get question and answer
         qa = self.get()
+
         #check if entries are blank and if the question already exists
         if (qa[0] not in ['', *sets[q.last_set]['questions']] or self.editing) and qa[1] != '':
+            #set last question
+            q.frames[OptionMenuFrame].update_values(list(sets[q.last_set]['questions'].keys()), False)
+
             #clear
             self.clear_entries()
 
@@ -433,11 +437,11 @@ class QuizFrame(tk.Frame):
         #back button
         tk.Button(self, text='🔙', command=lambda: q.change_frame(QuizFrame, StartFrame),
                   font=('helvetica', 30), bg=options['primary_bg'], fg=options['fg']
-                  ).grid(row=0, column=0, rowspan=2, columnspan=2, sticky=tk.NW, padx=(0, 230))
+                  ).grid(row=0, column=0, rowspan=3, columnspan=2, sticky=tk.NW, padx=(0, 230))
 
         #title
         tk.Label(self, text=' Practise ', font=BIG_FONT, bg=options['secondary_bg'], fg=options['fg'],
-                 relief="solid", width=8).grid(row=0, column=2, rowspan=2, columnspan=2)
+                 relief="solid", width=8).grid(row=0, column=2, rowspan=3, columnspan=2)
 
         #label to show no of answered questions
         self.answered_label = tk.Label(self, font=SMALL_FONT, bg=options['secondary_bg'],
@@ -449,30 +453,36 @@ class QuizFrame(tk.Frame):
                                       fg=options['fg'], text=f'Correct: {self.correct}')
         self.correct_label.grid(row=1, column=4, columnspan=2, sticky=tk.E)
 
+        #label to show percentage
+        self.percent_label = tk.Label(self, font=SMALL_FONT, bg=options['secondary_bg'],
+                                      fg=options['fg'],
+                                      text=f"Percent: {round(self.correct/self.answered*100, 2) if self.answered else '?'}%")
+        self.percent_label.grid(row=2, column=4, columnspan=2, sticky=tk.E)
+
         #question label
         self.question_label = tk.Label(self, font=FONT, bg=options['secondary_bg'],
                                        fg=options['fg'], text='placeholder')
-        self.question_label.grid(row=2, columnspan=6)
+        self.question_label.grid(row=3, columnspan=6)
 
         #answer entry
         self.answer_entry = ScrolledText(self, font=SMALL_FONT, bg=options['secondary_bg'],
                                          fg=options['fg'], width=20, height=5)
-        self.answer_entry.grid(row=3, column=0, columnspan=3)
+        self.answer_entry.grid(row=4, column=0, columnspan=3)
 
         #answer box
         self.answer_box = ScrolledText(self, font=SMALL_FONT, bg=options['secondary_bg'],
                                        fg=options['fg'], width=20, height=5)
         self.answer_box.bind("<Key>", lambda e: "break")
-        self.answer_box.grid(row=3, column=3, columnspan=3)
+        self.answer_box.grid(row=4, column=3, columnspan=3)
 
         #reveal answer
         self.submit_btn = tk.Button(self, font=FONT, bg=options['secondary_bg'],
                                     fg=options['fg'], width=20, text='Reveal Answer', command=self.submit_answer)
-        self.submit_btn.grid(row=4, columnspan=6, sticky=tk.EW, pady=(10, 0))
+        self.submit_btn.grid(row=5, columnspan=6, sticky=tk.EW, pady=(10, 0))
 
         #yes no frame
         yn_frame = self.yn_frame = tk.Frame(self)
-        yn_frame.grid_configure(row=4, columnspan=6)
+        yn_frame.grid_configure(row=5, columnspan=6)
         yn_frame.grid_remove()
 
         #frame title
@@ -531,6 +541,7 @@ class QuizFrame(tk.Frame):
 
         self.answered_label['text'] = f'Answered: {self.answered}'
         self.correct_label['text'] = f'Correct: {self.correct}'
+        self.percent_label['text'] = f"Percent: {round(self.correct/self.answered*100, 2) if self.answered else '?'}%"
 
         #clear text widget
         self.answer_entry.delete('1.0', 'end')
@@ -632,7 +643,7 @@ class Quizzer(tk.Tk):
             if file_to_update == SETS_FILE:
                 JsonManager.write(SETS_FILE, sets)
             else:
-                JsonManager.write(OPTIONS_FILE, OPTIONS_FILE)
+                JsonManager.write(OPTIONS_FILE, options)
 
 
 if __name__ == '__main__':

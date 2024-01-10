@@ -51,6 +51,6 @@ options = JsonManager.load(OPTIONS_FILE)
 sets = JsonManager.load(SETS_FILE)
 
 #constants
-BIG_FONT = ('helvetica', 80, 'bold')
+BIG_FONT = ('helvetica', 90, 'bold')
 FONT = ('helvetica', 60, 'bold')
 SMALL_FONT = ('helvetica', 40, 'bold')

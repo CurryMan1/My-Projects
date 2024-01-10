@@ -1,6 +1,6 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 from pygame import mixer
+from utils import *
 
 mixer.init()
 mixer.Channel(0).set_volume(0.5)
@@ -8,24 +8,26 @@ mixer.Channel(0).set_volume(0.5)
 
 
 def sleep(ms):
-    root.after(ms, root.quit)
-    root.mainloop()
+    g.after(ms, g.quit)
+    g.mainloop()
 
 
 class BoardFrame(tk.Frame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.squares = [[]*8]
+
         for i in range(64):
-            square = tk.Label(self, bg=COLOUR_SCHEMES[self.chosen_scheme][(i % 2) if (i // 8) % 2 == 1 else (i % 2) - 1],
+            square = tk.Label(self, bg=COLOUR_SCHEMES[chosen_scheme][(i % 2) if (i // 8) % 2 == 1 else (i % 2) - 1],
                               width=100, height=100,
                               #add image
-                              image=self.blue_man if i in [1,3,5,7,8,10,12,14,17,19,21,23]\
-                               else self.red_man if i in [40,42,44,46,49,51,53,55,56,58,60,62]\
-                               else self.blank)
+                              image=self.blue_man if i in [1, 3, 5, 7, 8, 10, 12, 14, 17, 19, 21, 23]\
+                              else self.red_man if i in [40, 42, 44, 46, 49, 51, 53, 55, 56, 58, 60, 62]\
+                              else self.blank)
             square.grid(row=i//8, column=i%8)
-            square.bind('<Button-1>', lambda event, i=i: self.click(event, i))
-            self.squares.append(square)
+            square.bind('<Button-1>', lambda event, idx=i: self.click(event, idx))
+            self.squares[i//8].append(square)
 
         self.pack()
 
@@ -43,7 +45,7 @@ class Checkers(tk.Tk):
         self.hl = []
         self.hopping = False
 
-        self.blank = ImageTk.PhotoImage(Image.open("assets/gfx/Blank.png").resize((100, 100))) #pyimage1
+        self.blank = ImageTk.PhotoImage() #pyimage1
 
         self.red_man = ImageTk.PhotoImage(Image.open("assets/gfx/Red Man.png").resize((100, 100))) #pyimage2
         self.blue_man = ImageTk.PhotoImage(Image.open("assets/gfx/Blue Man.png").resize((100, 100))) #pyimage3
@@ -61,12 +63,9 @@ class Checkers(tk.Tk):
         self.blue_dot = ImageTk.PhotoImage(Image.open("assets/gfx/Blue Dot.png").resize((100, 100))) #pyimage11
 
         self.red_pieces = [str(self.red_king), str(self.red_man)]
-        self.blue_pieces = [str(self.blue_king),str(self.blue_man)]
+        self.blue_pieces = [str(self.blue_king), str(self.blue_man)]
 
         self.board_frame = BoardFrame(self)
-
-        self.create_board()
-
 
     def click(self, event, i):
         if self.hopping:
@@ -74,7 +73,7 @@ class Checkers(tk.Tk):
             self.hopping = False
 
         #unhighlight
-        if self.hl != []:
+        if self.hl:
             self.hl[0]['image'] = self.hl[1]
 
         #sleep(250)
@@ -94,7 +93,7 @@ class Checkers(tk.Tk):
 
             #red man
             if square_img == str(self.red_man) and self.turn == 0:
-                self.check_piece(square_img, i, self.red_dot, self.selected_red_man, self.blue_pieces,-1)
+                self.check_piece(square_img, i, self.red_dot, self.selected_red_man, self.blue_pieces, -1)
 
             #blue man
             elif square_img == str(self.blue_man) and self.turn == 1:
@@ -157,7 +156,7 @@ class Checkers(tk.Tk):
                 self.dot_squares.append(self.squares[i+(ml*9)])
             elif i + (ml * 18) in range(64):
                 if self.squares[i+(ml*9)]['image'] in pieces and self.squares[i+(ml*18)]['image'] == str(self.blank)\
-                    and self.squares[i+(ml*18)]['bg'] in self.DARK_COLOURS:
+                        and self.squares[i+(ml*18)]['bg'] in self.DARK_COLOURS:
                     self.squares[i+(ml*18)]['image'] = dot
                     self.dot_squares.append(self.squares[i+(ml*18)])
         #check right square
@@ -167,7 +166,7 @@ class Checkers(tk.Tk):
                 self.dot_squares.append(self.squares[i+(ml*7)])
             elif i + (ml * 14) in range(64):
                 if self.squares[i+(ml*7)]['image'] in pieces and self.squares[i+(ml*14)]['image'] == str(self.blank)\
-                    and self.squares[i+(ml*14)]['bg'] in self.DARK_COLOURS:
+                        and self.squares[i+(ml*14)]['bg'] in self.DARK_COLOURS:
                     self.squares[i+(ml*14)]['image'] = dot
                     self.dot_squares.append(self.squares[i+(ml*14)])
 
