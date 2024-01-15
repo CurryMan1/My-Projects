@@ -116,6 +116,8 @@ if __name__ == '__main__':
             if file_name.endswith('.mp3'):
                 audio = mp3.MP3(file_path)
             elif file_name.endswith('.wav'):
+                print('wav!')
+                print(file_path)
                 audio = wave.WAVE(file_path)
 
             duration = audio.info.length
