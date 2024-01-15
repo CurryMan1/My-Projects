@@ -7,8 +7,8 @@ import random
 
 
 #reset function (to change colors)
-def reset_quizzer(new_fg, new_bg1, new_bg2):
-    global q #global here is unavoidable :(
+def reset(new_fg, new_bg1, new_bg2):
+    global a #global here is unavoidable :(
 
     #update options
     options['fg'] = new_fg
@@ -19,9 +19,9 @@ def reset_quizzer(new_fg, new_bg1, new_bg2):
     JsonManager.write(OPTIONS_FILE, options)
 
     #create new main win to apply changes
-    q.destroy()
-    q = Quizzer()
-    q.mainloop()
+    a.destroy()
+    a = App()
+    a.mainloop()
 
 
 #pop up windows
@@ -76,7 +76,7 @@ class StartFrame(tk.Frame):
 
         #preferences button
         tk.Button(self, text='Preferences', font=FONT, width=15, bg=options['primary_bg'], fg=options['fg'],
-                  command=lambda: q.change_frame(StartFrame, PreferencesFrame)).grid(row=3, padx=20, pady=(10, 20))
+                  command=lambda: a.change_frame(StartFrame, PreferencesFrame)).grid(row=3, padx=20, pady=(10, 20))
 
         #pack
         self.pack()
@@ -98,14 +98,14 @@ class StartFrame(tk.Frame):
             }
 
             JsonManager.write(SETS_FILE, sets)
-            q.frames[OptionMenuFrame].update_values(list(sets.keys()))
+            a.frames[OptionMenuFrame].update_values(list(sets.keys()))
 
             self.win.destroy()
 
     @staticmethod
     def check_sets(end_fr):
         if len(sets.keys()) > 0:
-            q.change_frame(StartFrame, OptionMenuFrame, end_fr)
+            a.change_frame(StartFrame, OptionMenuFrame, end_fr)
 
     def pack_forget(self) -> None:
         if self.win:
@@ -121,7 +121,7 @@ class OptionMenuFrame(tk.Frame):
         self.question_set = True
 
         #back button
-        tk.Button(self, text='🔙', command=lambda: q.back(OptionMenuFrame),
+        tk.Button(self, text='🔙', command=lambda: a.back(OptionMenuFrame),
                   font=('helvetica', 30), bg=options['primary_bg'], fg=options['fg']).grid(column=0, sticky=tk.W)
 
         #stringvar
@@ -142,10 +142,10 @@ class OptionMenuFrame(tk.Frame):
 
     def check_sets(self):
         if self.question_set:
-            if len(sets[q.frames[OptionMenuFrame].get()]['questions'].keys()) <= 1 and q.next_frame == QuizFrame:
+            if len(sets[a.frames[OptionMenuFrame].get()]['questions'].keys()) <= 1 and a.next_frame == QuizFrame:
                 return
 
-        q.change_frame(OptionMenuFrame)
+        a.change_frame(OptionMenuFrame)
 
     def update_values(self, values, question_set=True):
         #set last (question) set
@@ -178,7 +178,7 @@ class EditingFrame(tk.Frame):
         self.deleting = False
 
         #back button
-        tk.Button(self, text='🔙', command=lambda: q.change_frame(EditingFrame, StartFrame),
+        tk.Button(self, text='🔙', command=lambda: a.change_frame(EditingFrame, StartFrame),
                   font=('helvetica', 30), bg=options['primary_bg'], fg=options['fg']).grid(row=0, column=0)
 
         #title
@@ -196,7 +196,7 @@ class EditingFrame(tk.Frame):
 
         #add question button
         tk.Button(self, text='Add Question', font=SMALL_FONT, bg=options['primary_bg'], width=15, fg=options['fg'],
-                  command=lambda: q.change_frame(EditingFrame, EntryFrame, EditingFrame)
+                  command=lambda: a.change_frame(EditingFrame, EntryFrame, EditingFrame)
                   ).grid(row=3, column=0, padx=10, pady=5, columnspan=2, sticky=tk.EW)
 
         #delete question button
@@ -219,8 +219,8 @@ class EditingFrame(tk.Frame):
         if self.win:
             self.win.destroy()
 
-        answered = sets[q.last_set]['answered']
-        correct = sets[q.last_set]['correct']
+        answered = sets[a.last_set]['answered']
+        correct = sets[a.last_set]['correct']
 
         try:
             accuracy = round(correct/answered, 2)
@@ -244,38 +244,38 @@ class EditingFrame(tk.Frame):
     def delete_set(self):
         self.click_count += 1
         if self.click_count == 2:
-            last_set = q.last_set
+            last_set = a.last_set
             #delete set
             del sets[last_set]
             #go back to start frame
-            q.change_frame(EditingFrame, StartFrame, file_to_update=SETS_FILE)
+            a.change_frame(EditingFrame, StartFrame, file_to_update=SETS_FILE)
         else:
             self.reset_event = self.after(3000, self.reset_set_button)
             self.delete_set_button.config(text='Are you sure?', bg='#8B0000')
 
     def select_question(self, type_):
         #get last sets' questions
-        if q.last_set:
-            last_sets_questions = list(sets[q.last_set]['questions'].keys())
+        if a.last_set:
+            last_sets_questions = list(sets[a.last_set]['questions'].keys())
             if len(last_sets_questions) > 0:
                 #update values of OptionMenuFrame
-                q.frames[OptionMenuFrame].update_values(last_sets_questions, False)
+                a.frames[OptionMenuFrame].update_values(last_sets_questions, False)
 
                 if type_ == 'edit':
                     #go to OptionMenuFrame
-                    q.change_frame(EditingFrame, OptionMenuFrame, EntryFrame)
+                    a.change_frame(EditingFrame, OptionMenuFrame, EntryFrame)
 
                     #set editing in entry frame to true
-                    q.frames[EntryFrame].editing = True
+                    a.frames[EntryFrame].editing = True
                 elif type_ == 'delete':
                     #go to OptionMenuFrame
-                    q.change_frame(EditingFrame, OptionMenuFrame, EditingFrame)
+                    a.change_frame(EditingFrame, OptionMenuFrame, EditingFrame)
 
                     #set deleting
                     self.deleting = True
 
     def pack(self):
-        self.title['text'] = f'Manage {q.last_set}'
+        self.title['text'] = f'Manage {a.last_set}'
         super().pack()
 
 
@@ -287,7 +287,7 @@ class EntryFrame(tk.Frame):
         self.last_question = None
 
         #back button
-        tk.Button(self, text='🔙', command=lambda: q.back(EntryFrame),
+        tk.Button(self, text='🔙', command=lambda: a.back(EntryFrame),
                   font=('helvetica', 30), bg=options['primary_bg'], fg=options['fg']).grid(sticky=tk.W)
 
         #question entry
@@ -309,24 +309,24 @@ class EntryFrame(tk.Frame):
         qa = self.get()
 
         #check if entries are blank and if the question already exists
-        if (qa[0] not in ['', *sets[q.last_set]['questions']] or self.editing) and qa[1] != '':
+        if (qa[0] not in ['', *sets[a.last_set]['questions']] or self.editing) and qa[1] != '':
             #set last question
-            q.frames[OptionMenuFrame].update_values(list(sets[q.last_set]['questions'].keys()), False)
+            a.frames[OptionMenuFrame].update_values(list(sets[a.last_set]['questions'].keys()), False)
 
             #clear
             self.clear_entries()
 
             if self.editing:
                 #delete question
-                del sets[q.last_set]['questions'][self.last_question]
+                del sets[a.last_set]['questions'][self.last_question]
                 #set editing to false
                 self.editing = False
 
             #add a question and answer to dict
-            sets[q.last_set]['questions'][qa[0]] = {'answer': qa[1]}
+            sets[a.last_set]['questions'][qa[0]] = {'answer': qa[1]}
 
             #switch frame (and update file)
-            q.change_frame(EntryFrame, EditingFrame, file_to_update=SETS_FILE)
+            a.change_frame(EntryFrame, EditingFrame, file_to_update=SETS_FILE)
 
     def clear_entries(self):
         self.question_entry.delete('1.0', 'end')
@@ -359,7 +359,7 @@ class PreferencesFrame(tk.Frame):
         self.editing_btn = None
 
         #back button
-        tk.Button(self, text='🔙', command=lambda: q.back(PreferencesFrame),
+        tk.Button(self, text='🔙', command=lambda: a.back(PreferencesFrame),
                   font=('helvetica', 30), bg=options['primary_bg'], fg=options['fg']
                   ).place(x=-15, y=-15, width=60, height=60)
 
@@ -395,7 +395,7 @@ class PreferencesFrame(tk.Frame):
                   command=self.update_all).grid(sticky=tk.EW, columnspan=2)
 
     def update_all(self):
-        reset_quizzer(self.fg_btn['text'], self.primary_bg_btn['text'], self.secondary_bg_btn['text'])
+        reset(self.fg_btn['text'], self.primary_bg_btn['text'], self.secondary_bg_btn['text'])
 
     def pop_window(self, editing_btn):
         if self.win:
@@ -435,7 +435,7 @@ class QuizFrame(tk.Frame):
         self.last_question = None
 
         #back button
-        tk.Button(self, text='🔙', command=lambda: q.change_frame(QuizFrame, StartFrame),
+        tk.Button(self, text='🔙', command=lambda: a.change_frame(QuizFrame, StartFrame),
                   font=('helvetica', 30), bg=options['primary_bg'], fg=options['fg']
                   ).grid(row=0, column=0, rowspan=3, columnspan=2, sticky=tk.NW, padx=(0, 230))
 
@@ -463,6 +463,7 @@ class QuizFrame(tk.Frame):
         self.question_label = tk.Label(self, font=FONT, bg=options['secondary_bg'],
                                        fg=options['fg'], text='placeholder')
         self.question_label.grid(row=3, columnspan=6)
+        print(self.question_label['width'])
 
         #answer entry
         self.answer_entry = ScrolledText(self, font=SMALL_FONT, bg=options['secondary_bg'],
@@ -507,35 +508,33 @@ class QuizFrame(tk.Frame):
         self.correct = 0
 
     def submit_answer(self):
-        #write in text widget
-        self.answer_box.insert('1.0', self.answer)
+        if self.answer_entry.get("1.0", 'end-1c'):
+            #write in text widget
+            self.answer_box.insert('1.0', self.answer)
 
-        #ungrid btn and grid yn_frame
-        self.submit_btn.grid_remove()
-        self.yn_frame.grid()
+            #ungrid btn and grid yn_frame
+            self.submit_btn.grid_remove()
+            self.yn_frame.grid()
 
     def set_next_question(self, correct=None):
         #get random question
-        question = random.choice(list(sets[q.last_set]['questions'].keys()))
+        question = random.choice(list(sets[a.last_set]['questions'].keys()))
         while question == self.last_question:
-            question = random.choice(list(sets[q.last_set]['questions'].keys()))
+            question = random.choice(list(sets[a.last_set]['questions'].keys()))
 
-        self.answer = sets[q.last_set]['questions'][question]['answer']
+        self.answer = sets[a.last_set]['questions'][question]['answer']
         self.last_question = question
 
-        #add newlines to it
-        edited_question = add_newlines(question, 28)
-
         #set question label to rand question
-        self.question_label['text'] = edited_question
+        self.question_label['text'] = question
 
         #change labels' text
         if correct:
             self.answered += 1
-            sets[q.last_set]['answered'] += 1
+            sets[a.last_set]['answered'] += 1
             if correct == 'Yes':
                 self.correct += 1
-                sets[q.last_set]['correct'] += 1
+                sets[a.last_set]['correct'] += 1
 
             JsonManager.write(SETS_FILE, sets)
 
@@ -554,7 +553,7 @@ class QuizFrame(tk.Frame):
         self.yn_frame.grid_remove()
 
 
-class Quizzer(tk.Tk):
+class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Quizzer')
@@ -613,7 +612,7 @@ class Quizzer(tk.Tk):
 
                 if self.next_frame == EditingFrame:
                     if self.frames[EditingFrame].deleting:
-                        del sets[q.last_set]['questions'][q.frames[EntryFrame].last_question]
+                        del sets[a.last_set]['questions'][a.frames[EntryFrame].last_question]
                         self.frames[EditingFrame].pack()
                         self.frames[EditingFrame].deleting = False
                         file_to_update = SETS_FILE
@@ -647,5 +646,5 @@ class Quizzer(tk.Tk):
 
 
 if __name__ == '__main__':
-    q = Quizzer()
-    q.mainloop()
+    a = App()
+    a.mainloop()

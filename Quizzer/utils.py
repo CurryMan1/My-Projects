@@ -1,20 +1,19 @@
 import json
 import math
 
+
 #class to read and write into json files
 class JsonManager:
     @staticmethod
     def load(file: str) -> dict:
         with open(file, 'r') as f:
             data = json.load(f)
-            f.close()
             return data
 
     @staticmethod
     def write(file: str, content: dict) -> None:
         with open(file, 'w') as f:
             json.dump(content, f, indent=4)
-            f.close()
 
 
 #func to check if hex code is closer to white or black
