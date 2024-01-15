@@ -47,6 +47,9 @@ def play(song: str):
 
     clicked = False
 
+    #load song
+    pg_song = pygame.mixer.Sound(f'assets/songs/{song}')
+
     while True:
         #update clock and get deltaTime
         delta = clock.tick(FPS) / 1000
@@ -80,8 +83,7 @@ def play(song: str):
 
         if time_elapsed >= DELAY and not music_playing: #delays song
             #start song
-            pygame.mixer.music.load(f'assets/songs/{song}')
-            pygame.mixer.music.play()
+            pg_song.play()
 
             music_playing = True
 

@@ -18,9 +18,6 @@ DELAY = SUPER_LINE_PX / TILE_SPEED
 #font
 FONT = "assets/Futura Extra Black font.ttf"
 
-#sound
-fail_sound = pygame.mixer.Sound('assets/fail_sound.mp3')
-
 #colour
 BLACK = (0, 0, 0)
 GREY = (100, 100, 100)

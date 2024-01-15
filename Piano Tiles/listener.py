@@ -11,7 +11,7 @@ It will write to assets/songs.json in the format
 import random
 import pygame
 import mutagen
-from mutagen.mp3 import MP3
+from mutagen import mp3, wave, MutagenError
 from utils import JsonManager, draw_text, SONGS_FILE, songs
 
 
@@ -36,6 +36,9 @@ def main():
     note_count = -1
     time_elapsed = 0
 
+    #load song
+    pg_song = pygame.mixer.Sound(file_path)
+
     while True:
         delta = clock.tick() / 1000  #framerate as fast as possible
 
@@ -48,8 +51,7 @@ def main():
                 note_count += 1
                 if note_count == 0:
                     #start song
-                    pygame.mixer.music.load(file_path)
-                    pygame.mixer.music.play()
+                    pg_song.play()
                 else:
                     #add note
                     notes.append(time_elapsed)
@@ -63,15 +65,19 @@ def main():
             clicked = False
 
         #draw circles
+        new_list = circles[:]
         for circle in circles:
             #change radius
             circle[1] += CIRCLE_GROWTH_RATE*delta
             circle[2][3] -= CIRCLE_TRANSPARENCY_RATE*delta
 
+            if circle[2][3] <= 0:
+                new_list.remove(circle)
+                continue
             #draw circ
             pygame.draw.circle(display, circle[2], circle[0], circle[1])
-            if circle[2][3] <= 0:
-                circles.remove(circle)
+
+        circles = new_list[:]
 
         #text
         if note_count < 0:
@@ -105,11 +111,17 @@ if __name__ == '__main__':
         try:
             file_name = input('Enter Song Name (in assets/songs): ')
             file_path = f"assets/songs/{file_name}"
-            audio = MP3(file_path)
+
+            #handle different audio file types
+            if file_name.endswith('.mp3'):
+                audio = mp3.MP3(file_path)
+            elif file_name.endswith('.wav'):
+                audio = wave.WAVE(file_path)
+
             duration = audio.info.length
             print(duration)
             break
-        except mutagen.MutagenError:
+        except MutagenError:
             print(f'"{file_name}" not found in assets/songs')
 
     main()
