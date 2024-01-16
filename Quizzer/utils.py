@@ -37,11 +37,6 @@ def white_or_black(hex_) -> str:
     return 'white'
 
 
-#func to add \n every n characters
-def add_newlines(string: str, n: int):
-    return ''.join([string[i]+'\n' if (i+1) % n == 0 else string[i] for i in range(len(string))])
-
-
 #files
 OPTIONS_FILE = 'data/options.json'
 SETS_FILE = 'data/sets.json'
@@ -53,3 +48,4 @@ sets = JsonManager.load(SETS_FILE)
 BIG_FONT = ('helvetica', 90, 'bold')
 FONT = ('helvetica', 60, 'bold')
 SMALL_FONT = ('helvetica', 40, 'bold')
+TINY_FONT = ('helvetica', 25, 'bold')

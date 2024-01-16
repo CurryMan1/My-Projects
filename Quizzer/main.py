@@ -196,8 +196,7 @@ class EditingFrame(tk.Frame):
 
         #add question button
         tk.Button(self, text='Add Question', font=SMALL_FONT, bg=options['primary_bg'], width=15, fg=options['fg'],
-                  command=lambda: a.change_frame(EditingFrame, EntryFrame, EditingFrame)
-                  ).grid(row=3, column=0, padx=10, pady=5, columnspan=2, sticky=tk.EW)
+                  command=self.add_question).grid(row=3, column=0, padx=10, pady=5, columnspan=2, sticky=tk.EW)
 
         #delete question button
         tk.Button(self, text='Delete Question', font=SMALL_FONT, bg=options['primary_bg'], width=15, fg=options['fg'],
@@ -208,6 +207,12 @@ class EditingFrame(tk.Frame):
         self.delete_set_button = tk.Button(self, text='Delete Set', font=SMALL_FONT, bg=options['primary_bg'], width=15,
                                            fg=options['fg'], command=self.delete_set)
         self.delete_set_button.grid(row=5, column=0, padx=10, pady=5, columnspan=2, sticky=tk.EW)
+
+    @staticmethod
+    def add_question():
+        a.change_frame(EditingFrame, EntryFrame, EditingFrame)
+        a.frames[EntryFrame].editing = False
+        a.frames[EntryFrame].clear_entries()
 
     def pack_forget(self):
         if self.win:
@@ -223,7 +228,7 @@ class EditingFrame(tk.Frame):
         correct = sets[a.last_set]['correct']
 
         try:
-            accuracy = round(correct/answered, 2)
+            accuracy = round(correct/answered, 2)*100
         except ZeroDivisionError:
             accuracy = '?'
 
@@ -460,19 +465,18 @@ class QuizFrame(tk.Frame):
         self.percent_label.grid(row=2, column=4, columnspan=2, sticky=tk.E)
 
         #question label
-        self.question_label = tk.Label(self, font=FONT, bg=options['secondary_bg'],
+        self.question_label = tk.Label(self, font=SMALL_FONT, bg=options['secondary_bg'],
                                        fg=options['fg'], text='placeholder')
         self.question_label.grid(row=3, columnspan=6)
-        print(self.question_label['width'])
 
         #answer entry
-        self.answer_entry = ScrolledText(self, font=SMALL_FONT, bg=options['secondary_bg'],
-                                         fg=options['fg'], width=20, height=5)
+        self.answer_entry = ScrolledText(self, font=TINY_FONT, bg=options['secondary_bg'],
+                                         fg=options['fg'], width=37, height=8)
         self.answer_entry.grid(row=4, column=0, columnspan=3)
 
         #answer box
-        self.answer_box = ScrolledText(self, font=SMALL_FONT, bg=options['secondary_bg'],
-                                       fg=options['fg'], width=20, height=5)
+        self.answer_box = ScrolledText(self, font=TINY_FONT, bg=options['secondary_bg'],
+                                       fg=options['fg'], width=37, height=8)
         self.answer_box.bind("<Key>", lambda e: "break")
         self.answer_box.grid(row=4, column=3, columnspan=3)
 
