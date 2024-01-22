@@ -226,13 +226,14 @@ class EditingFrame(tk.Frame):
 
         answered = sets[a.last_set]['answered']
         correct = sets[a.last_set]['correct']
+        questions = len(sets[a.last_set]['questions'])
 
         try:
             accuracy = round(correct/answered, 2)*100
         except ZeroDivisionError:
             accuracy = '?'
 
-        text = f'Answered: {answered}\nCorrect: {correct}\nAccuracy: {accuracy}%'
+        text = f'Answered: {answered}\nCorrect: {correct}\nAccuracy: {accuracy}%\nQuestions: {questions}'
 
         self.win = TextPopUp(self, options['primary_bg'], text)
 
