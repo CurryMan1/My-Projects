@@ -1,15 +1,13 @@
 import pygame
 from src.constants import WIDTH, HEIGHT, WHITE
-from src.utils import load_img
 from src.button import Button
+from src.state_enum import States
 from src.states.base import BaseState
 
 
 class Start(BaseState):
     def __init__(self, app):
         super().__init__(app)
-
-        self.background = load_img('background.jpeg')
 
         self.title = Button(
             self.app,
@@ -53,14 +51,12 @@ class Start(BaseState):
             self.app.stop()
 
         if self.settings_btn.is_clicked():
-            ...
+            self.app.change_state(States.SETTINGS)
 
         if self.start_btn.is_clicked():
             ...
 
     def draw(self):
-        self.app.screen.blit(self.background, (0, 0))
-
         self.title.draw()
         self.start_btn.draw()
         self.settings_btn.draw()

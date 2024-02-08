@@ -3,6 +3,7 @@ from src.constants import WIN_SIZE
 from src.utils import load_img
 from src.state_enum import States
 from src.states.start import Start
+from src.states.settings import Settings
 
 
 class App:
@@ -23,10 +24,14 @@ class App:
 
         #states
         self.states = {
-            States.START: Start(self)
+            States.START: Start(self),
+            States.SETTINGS: Settings(self)
         }
 
         self.current_state = self.states[States.START]
+
+        #bg
+        self.background = load_img('background.jpeg')
 
         #game vars
         self.running = True
@@ -41,6 +46,9 @@ class App:
             self.mouse_pos = pygame.mouse.get_pos()
             self.mouse_input = pygame.mouse.get_pressed()
 
+            #blit bg
+            self.screen.blit(self.background, (0, 0))
+
             #handle events
             for event in pygame.event.get():
                 self.current_state.handle_event(event)
@@ -52,6 +60,9 @@ class App:
             self.current_state.draw()
 
             pygame.display.flip()
+
+    def change_state(self, state):
+        self.current_state = self.states[state]
 
     def stop(self):
         self.running = False
