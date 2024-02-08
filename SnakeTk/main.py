@@ -1,11 +1,14 @@
 import tkinter as tk
 from random import randint
 
-class Game:
-    def __init__(self, root):
+class Game(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title('Snake')
+        self.resizable(False, False)
+
         #game vars
-        self.root = root
-        self.game_frame = tk.Frame(root)
+        self.game_frame = tk.Frame(self)
         self.board_width = 30
         self.squares = [[] for i in range(self.board_width)]
         self.dir_x, self.dir_y = 1, 0
@@ -17,7 +20,7 @@ class Game:
         self.changed = False
 
         #bind arrows
-        root.bind('<Key>', self.change_direction)
+        self.bind('<Key>', self.change_direction)
 
         #setup ui
         self.create_grid()
@@ -70,7 +73,7 @@ class Game:
 
         self.draw_snake()
 
-        self.root.after(self.delay, self.move_snake)
+        self.after(self.delay, self.move_snake)
 
     def new_fruit(self):
         self.score += 1
@@ -89,8 +92,7 @@ class Game:
         for x, y in self.snake:
             self.squares[y][x]['bg'] = 'green'
 
-root = tk.Tk()
-root.title('Snake')
-root.resizable(False, False)
-g = Game(root)
-root.mainloop()
+
+if __name__ == '__main__':
+    g = Game()
+    g.mainloop()

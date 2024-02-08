@@ -1,27 +1,209 @@
 {
     "Biology": {
         "questions": {
+            "Why do enzymes have an\noptimum pH value? (2)": {
+                "answer": "If the pH value is too high or too low, it can interfere with the bonds holding the enzyme together. This changes the shape of the active site and denatures the enzyme."
+            },
+            "What are the enzymes and\nproducts for Carbs, Proteins\nand Lipids? (3)": {
+                "answer": "Carbs: Carbohydrase, Sugars such as maltose and glucose.\nProteins: Protease, Amino Acids.\nLipids: Lipase, [1] Glycerol and [3] fatty acids."
+            },
+            "Where are amylases (carbohydrases),\nproteases and lipases\nproduced in the body? (3?)": {
+                "answer": "NOTES:\n-All made in Pancreas and\nSmall Intestine\n\nAmylases/Carbohydrase:\n-Salivary Glands\n-Pancreas\n-Small Intestine\n\nProtease:\n-Stomach\n-Pancreas\n-Small Intestine\n\nLipase:\n-Pancreas\n-Small Intestine"
+            },
+            "a) Where is bile produced? (1)\nb) Where is bile stored? (1)\nc) Where is bile released? (1)": {
+                "answer": "a) Bile is produced in the liver.\n\nb) Bile is stored in the gall bladder.\n\nc) Bile is released into the small intestine."
+            },
             "The bladder is an organ.\nExplain what this means. (2)": {
                 "answer": "An organ is a group of different tissues that work together to perform a certain function."
             },
-            "What is a catalyst? (2)": {
-                "answer": "A catalyst is a substance which INCREASES the rate of a reaction without being CHANGED or ALTERED."
+            "Name 2 functions of bile. (2)": {
+                "answer": "1. Bile neutalises the food coming out of the stomach (it is acidic due the the hydrochloric acid). Bile is alkali.\n\n2. Bile Emulsifies fats. This means it breaks the fat into tiny droplets to increase the surface area for lipase to work on, making digestion faster."
             },
-            "Why do enzymes have an\noptimum pH value? (2)": {
-                "answer": "If the pH value is too high or too low, it can interfere with the bonds holding the enzyme together. This changes the shape of the active site and denatures the enzyme."
+            "What does the large\nintestine do in digestion? (1)": {
+                "answer": "The large intestine absorbs excess water from food."
+            },
+            "What does the stomach do\nin digestion? (2)": {
+                "answer": "In digestion, the stomach\ndoes the following:\n\n1) Churns food with\nmuscular walls\n2) Soaks it in hydrochloric\nacid for 2 reasons:\n-To kill bacteria\n-To give the right pH for\nprotease to work on"
+            },
+            "Name the tests for sugars, \nstarch, proteins and lipids(4)": {
+                "answer": "Sugars: Benedict's Solution goes from blue to brick red when heated.\n\nStarch: Iodine goes from\nbrowny-orange to blue-black\n\nProtein: Biuret solution goes from blue to purple after shaking it.\n\nLipids: Sudan III stain solution seperates out into 2 layers. The top layer will be bright red."
+            },
+            "What do guard cells do in\nthe stomata and why? (2)": {
+                "answer": "Guard cells open and close stomata to prevent excess water vapour from escaping. They open to allow carbon dioxide to enter."
+            },
+            "Name 4 factors that effect \nthe rate of transpiration. (4)": {
+                "answer": "-Light intensity  More\n-Temperature     More\n-Air flow             More\n-Humidity           Less"
+            },
+            "Name 3 limiting factors of\nphotosynthesis. (3)": {
+                "answer": "Three limiting factors of photosynthesis are:\n-Light intensity\n-Temperature\n-Carbon Dioxide concentration"
+            },
+            "How does the inverse\nsquare law link Light \nIntensity and Distance?": {
+                "answer": "Light intensity is INVERSELY PROPORTIONAL to (1\u00f7d\u00b2)"
+            },
+            "Define respiration. (2?)": {
+                "answer": "Respiration is the process of TRANSFERRING ENERGY FROM GLUCOSE which goes on in EVERY CELL."
+            },
+            "What is the equation for\naerobic respiration? (2)": {
+                "answer": "glucose + oxygen => carbon dioxide + water"
+            },
+            "What is the equation for\nphotosynthesis? (2)": {
+                "answer": "carbon dioxide + water => glucose + oxygen"
+            },
+            "What is the equation for\nanaerobic respiration? (1)": {
+                "answer": "glucose => lactic acid"
+            },
+            "What is the equation for \naerobic respiration in \nplants? (1)": {
+                "answer": "glucose => ethanol + carbon dioxide"
+            },
+            "What is oxygen debt? (1)": {
+                "answer": "Oxygen debt is the amount of oxygen your body needs to remove the lactic acid and replace the oxygen reserves."
+            },
+            "How does the body remove \nlactic acid? (2)": {
+                "answer": "The body removes lactic acid by:\n-Oxidising it to carbon dioxide and water\nOR\n-Convert it to glucose, then glycogen"
+            },
+            "What is the link between\nGenes, DNA and \nChromosomes? (1)": {
+                "answer": "Genes make up DNA and DNA make up Chromosomes."
+            },
+            "What is a catalyst? (2)": {
+                "answer": "A catalyst is a substance which INCREASES the rate of a reaction without being CHANGED or USED UP."
+            },
+            "What is a chromosome? (1)": {
+                "answer": "A chromosome is a structure made up of DNA."
+            },
+            "What is DNA? (1)": {
+                "answer": "DNA is a structure made up of genes."
+            },
+            "What are genes?": {
+                "answer": "Genes are components of \nDNA."
+            },
+            "What are the 3 phases of the\ncell cycle? (3)": {
+                "answer": "1. Interphase:\nThe longest phase. The cell grows and DNA replicates. \nThe cells' organelles increase in numbers.\n\n2. Mitosis:\nOne set of chromosomes go to each end of the cell.\nThe nucleus divides.\n\n3. Cell Division:\nThe cell membrane divides into 2 genetically identical cells."
+            },
+            "Convert 6 picograms to\ngrams in standard form. (1)": {
+                "answer": "6x10^-12"
+            },
+            "Order these measurements:\ngram, picogram, microgram,\nmilligram, nanogram.": {
+                "answer": "picogram, nanogram,\nmicrogram, milligram,\ngram (ascending)"
             }
         },
-        "answered": 6,
-        "correct": 5
+        "answered": 38,
+        "correct": 31
     },
     "Chemistry": {
-        "questions": {},
-        "answered": 0,
-        "correct": 0
+        "questions": {
+            "What is a hydrocarbon? (1)": {
+                "answer": "A hydrocarbon is a molecule made up of only hydrogen and carbon."
+            },
+            "Why do ionic compounds\nhave a high melting \npoint? (3?)": {
+                "answer": "The ions are attacted to each other by electrostatic attraction since they are oppositely charged. Also, they are arranged in a lattice which is a very strong structure. This means it takes a lot of energy (heat) to weaken the bonds."
+            },
+            "What did John Dalton\nsuggest about the atom? (1)": {
+                "answer": "John Dalton suggested that atoms were solid sperical balls that make up everything."
+            },
+            "Who discovered the electron\nand what model did they\npropose? (2)": {
+                "answer": "The electron was discovered by JJ Thomson through the plum pudding model."
+            },
+            "How did Rutherford \nfind out that the plum \npudding model was wrong?": {
+                "answer": "Rutherford fired positively charged alpha particles at a gold sheet. Some went straight through, but others went off into random directions."
+            },
+            "Who discovered neutrons\nand how? (2)": {
+                "answer": "James Chadwick discovered neutrons when he found particles with mass but no charge."
+            },
+            "Why was Mendeleev's \nperiodic table more \naccepted than others? (3)": {
+                "answer": "-Properties matched Mendeleev's predictions.\n-Elements that fit the patterns were discovered\n-He didn't order them strictly by atomic weight but by reactivity and properties."
+            },
+            "How do alkanes and alkenes change the colour of\nbromine water when shook?": {
+                "answer": "Alkanes - No colour change\nAlkenes - Bromine water turns colourless\n\nThis is because ALL alkenes are unsaturated. Bromine can break the C=C double bond and attach itself to the Alkene molecule."
+            },
+            "How were elements \nclassified in the early \n1800s? (1)": {
+                "answer": "Elements were classified in the early 1800s by atomic weight."
+            },
+            "Who discovered that \nelectrons orbit the nucleus \nin shells?": {
+                "answer": "Niels Bohr discovered that electrons orbit the nucleus in shells."
+            },
+            "Describe two changes\nMendeleev made to early\nperiodic tables. (2)": {
+                "answer": "1) He left gaps for future elements to be discovered that fit the patterns\n\n2) He didn't arrange them strictly by atomic weight but also by chemical properties."
+            },
+            "What is the trend in \nreactivity as you go down\ngroup one and why?": {
+                "answer": "They get more reactive because the electrostatic attraction between the nucleus and the outermost shell increases making it easier for the atom to lose an electron."
+            },
+            "What is the formula for the\nnumber of hydrogen atoms \nin an alkane?": {
+                "answer": "2n + 2 with n being the number of carbon atoms."
+            },
+            "What is collected at the\nbottom of a fractionating\ncolumn and why? (2)": {
+                "answer": "Bitumen is collected at the bottom of the fractionating column because it is made up of long chain hydrocarbons."
+            },
+            "What is found at the top of \na fractionating column? (1)": {
+                "answer": "LPG (Liquefied Petroleum Gas) is found at the top of the fractionating column."
+            },
+            "What substance is put into a fractionating column? (1)": {
+                "answer": "Crude oil is put into a fractionating column."
+            },
+            "Why is cracking necessary?": {
+                "answer": "The supply for longer hydrocarbons is high but the demand is low. The supply for shorter hydrocarbons is low but the demand is high. This is why cracking is used to break up longer hydrocarbons into smaller ones."
+            },
+            "What do alkenes have that \nalkanes don't? (1)": {
+                "answer": "A double bond between 2 carbon atoms (C=C)."
+            },
+            "How do flammability, boiling \npoint and viscosity vary as \na hydrocarbon grows?": {
+                "answer": "The longer a hydrocarbon:\n-The higher the boiling point\n-The lower the flammability\n-The higher the viscosity"
+            },
+            "Name 2 unique products \nproduced during incomplete \ncombustion": {
+                "answer": "2 products that are produced during incomplete combustion are CARBON and CARBON MONOXIDE."
+            },
+            "Why do alkenes typically\nincompletely combust?": {
+                "answer": "Alkenes are unsaturated which means that they can still bond with other atoms. If there isn't enough oxygen in the air (which there usually isn't) then less energy is released and products like carbon and carbon monoxide are produced instead of carbon dioxide."
+            },
+            "Why did the carbon dioxide\non earth decrease and \noxygen levels increase?": {
+                "answer": "As plants like algae evolved, they photosynthesised to produce their own food. In photosynthesis, plants absorb carbon dioxide and release oxygen."
+            },
+            "Why do ionic compounds\nnot conduct electricity when \nsolid? (1)": {
+                "answer": "The ions, which carry charge are not free to move."
+            }
+        },
+        "answered": 9,
+        "correct": 9
     },
     "Physics": {
-        "questions": {},
-        "answered": 0,
-        "correct": 0
+        "questions": {
+            "What is the formula for\nspecific heat capacity? (1)": {
+                "answer": "E = mc\u25b2\u0398\nSO:\nc = E\u00f7(m\u25b2\u0398)\n\nUnits and meanings:\n\nE: (thermal) energy, Joules\n\nm: mass, KG\n\nc: specific heat capacity,\nJ/kg\u00b0C\n\n\u25b2\u0398: change in temperature,\n\u00b0C"
+            },
+            "What is the definition of\nspecific heat capacity? (2)": {
+                "answer": "The amount of energy needed to increase the temperature of 1KG of a substance by 1\u00b0C."
+            },
+            "What is the equation for\nGravitational Potential\nEnergy? (1)": {
+                "answer": "GPE = mass * gravitational field strength * height"
+            },
+            "What is the equation for\nKinetic Energy?": {
+                "answer": "Kinetic Energy = \u00bd * mass * velocity\u00b2"
+            },
+            "What is the equation for \nElastic Potential Energy? (1)": {
+                "answer": "EPE = \u00bd * spring constant * extension\u00b2"
+            },
+            "Define weight. (1)": {
+                "answer": "Weight is how heavy an object is due to gravity."
+            },
+            "What is specific latent heat?": {
+                "answer": "Specific latent heat is the amount of energy needed to change 1KG of a substance from one state to another without changing its temperature."
+            },
+            "What is the equation for\nspecific latent heat? (1)": {
+                "answer": "(Thermal) Energy = Mass * Specific Latent Heat\n\nSO:\nE=mL\n\nSO:\nL = E/m"
+            },
+            "Define mass. (1)": {
+                "answer": "Mass is how much matter is in an object."
+            },
+            "What is the equation for \npower (and units)?": {
+                "answer": "Power = (Work Done/Time)\nPower is measured in watts"
+            },
+            "How is energy transferred \nthrough a solid by heating. \nWhat is this effect called?": {
+                "answer": "Heating transfers energy to the particle's kinetic energy stores. These particles vibrate and transfer energy between them, gradually transferring the energy through the solid. This is called CONDUCTION."
+            },
+            "What is internal energy? (1)": {
+                "answer": "Internal energy is the total energy in the kinetic and potential energy stores."
+            }
+        },
+        "answered": 13,
+        "correct": 11
     }
 }

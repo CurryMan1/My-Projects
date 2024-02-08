@@ -157,7 +157,7 @@ class OptionMenuFrame(tk.Frame):
         if len(values) > 0:
             #add new label
             for value in values:
-                self.option_menu['menu'].add_command(label=value, command=tk._setit(self.choice, value))
+                self.option_menu['menu'].add_command(label=value, command=lambda x=value: self.choice.set(x))
 
             self.choice.set(values[0])
 
@@ -460,9 +460,10 @@ class QuizFrame(tk.Frame):
         self.correct_label.grid(row=1, column=4, columnspan=2, sticky=tk.E)
 
         #label to show percentage
+        percent_txt = f"Percent: {round(self.correct / self.answered * 100, 2) if self.answered else '?'}%"
         self.percent_label = tk.Label(self, font=SMALL_FONT, bg=options['secondary_bg'],
                                       fg=options['fg'],
-                                      text=f"Percent: {round(self.correct/self.answered*100, 2) if self.answered else '?'}%")
+                                      text=percent_txt)
         self.percent_label.grid(row=2, column=4, columnspan=2, sticky=tk.E)
 
         #question label

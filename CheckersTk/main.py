@@ -35,7 +35,7 @@ class BoardFrame(tk.Frame):
 class Checkers(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title('Checkers')
+        self.title('CheckersTk')
         self.iconbitmap('assets/gfx/Red Man.ico')
         self.resizable(False, False)
 
