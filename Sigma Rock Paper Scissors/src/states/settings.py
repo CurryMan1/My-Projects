@@ -26,7 +26,7 @@ class Settings(BaseState):
             (WIDTH / 2, 180)
         )
 
-        self.player_slider = Slider(self.app, (WIDTH/2, HEIGHT/2), 'Team Size: ', 100, 1)
+        self.player_slider = Slider(self.app, (WIDTH/2, HEIGHT/2), 'Team Size: ', 250, 1)
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
