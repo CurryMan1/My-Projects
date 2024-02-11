@@ -55,23 +55,6 @@ class Character:
 
         self.add_move(direction * self.SPEED * self.app.delta)
 
-    # def move_from_edge(self): #if character is stuck
-    #     x, y = 0.1, 0.1
-    #
-    #     if self.rect.x < EDGE_AVOID_RADIUS:
-    #         x = 1
-    #     elif self.rect.x < WIDTH - EDGE_AVOID_RADIUS:
-    #         x = -1
-    #
-    #     if self.rect.y < EDGE_AVOID_RADIUS:
-    #         y = 1
-    #     elif self.rect.y < HEIGHT - EDGE_AVOID_RADIUS:
-    #         y = -1
-    #
-    #     v = pygame.Vector2(x, y).normalize() * 500
-    #     self.rect.x += v.x
-    #     self.rect.y += v.y
-
     def distance_to(self, character):
         x, y = self.get_xy(character)
         return hypot(x, y)
