@@ -1,7 +1,7 @@
 import pygame
-from src.constants import WIDTH, HEIGHT, WHITE
-from src.button import Button
-from src.state_enum import States
+from src.tools.constants import WIDTH, HEIGHT, WHITE
+from src.tools.state_enum import States
+from src.ui.button import Button
 from src.states.base import BaseState
 
 
@@ -14,7 +14,7 @@ class Start(BaseState):
             'SIGMA RPS',
             self.app.title_font,
             WHITE,
-            (WIDTH/2, 250)
+            (WIDTH/2, 300)
         )
 
         self.start_btn = Button(
@@ -30,7 +30,7 @@ class Start(BaseState):
             'SETTINGS',
             self.app.normal_font,
             WHITE,
-            (WIDTH/2, 550)
+            (WIDTH/2, 660)
         )
 
         self.quit_btn = Button(
@@ -38,7 +38,7 @@ class Start(BaseState):
             'QUIT',
             self.app.normal_font,
             WHITE,
-            (WIDTH/2, 650)
+            (WIDTH/2, 780)
         )
 
     def handle_event(self, event):
@@ -54,7 +54,7 @@ class Start(BaseState):
             self.app.change_state(States.SETTINGS)
 
         if self.start_btn.is_clicked():
-            ...
+            self.app.change_state(States.GAME)
 
     def draw(self):
         self.title.draw()

@@ -5,3 +5,4 @@ class States(Enum):
     START = 0
     SETTINGS = 1
     GAME = 2
+    PAUSE = 3

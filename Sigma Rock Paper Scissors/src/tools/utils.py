@@ -27,3 +27,7 @@ def load_imgs(path, transparent=False, scale=None, rotate=None):
         images.append(img)
 
     return images
+
+
+def round_to_multiple(number, multiple):
+    return multiple * round(number / multiple)

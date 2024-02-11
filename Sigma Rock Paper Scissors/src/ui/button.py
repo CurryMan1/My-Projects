@@ -1,5 +1,5 @@
 import pygame
-from src.constants import BLACK, BLUE
+from src.tools.constants import BLACK, BLUE
 
 
 class Button:
@@ -12,11 +12,11 @@ class Button:
         self.rect = self.surf.get_rect(center=pos)
         self.hovered = False
 
-    def is_clicked(self):
+    def is_clicked(self) -> bool:
         self.hovered = self.rect.collidepoint(self.app.mouse_pos)
         return self.hovered and self.app.mouse_input[0]
 
-    def draw(self):
+    def draw(self) -> None:
         self.app.screen.blit(self.shadow, self.rect.move(5, 5))
         if self.hovered:
             self.app.screen.blit(self.selected_surf, self.rect)

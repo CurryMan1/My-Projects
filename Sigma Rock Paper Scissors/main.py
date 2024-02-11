@@ -1,8 +1,10 @@
 import pygame
-from src.constants import WIN_SIZE
-from src.utils import load_img
-from src.state_enum import States
+from src.tools.constants import WIN_SIZE
+from src.tools.utils import load_img, load_imgs
+from src.tools.state_enum import States
 from src.states.start import Start
+from src.states.game import Game
+from src.states.pause import Pause
 from src.states.settings import Settings
 
 
@@ -19,23 +21,27 @@ class App:
         self.clock = pygame.time.Clock()
 
         #font
-        self.title_font = pygame.font.Font('assets/fonts/smooth.ttf', 200)
-        self.normal_font = pygame.font.Font('assets/fonts/smooth.ttf', 60)
+        self.title_font = pygame.font.Font('assets/fonts/smooth.ttf', 240)
+        self.normal_font = pygame.font.Font('assets/fonts/smooth.ttf', 72)
+
+        #images
+        self.background = load_img('background.jpeg')
+        self.characters = load_imgs('characters', True, 0.4) #only works because they are in alphabetical order
 
         #states
         self.states = {
             States.START: Start(self),
-            States.SETTINGS: Settings(self)
+            States.SETTINGS: Settings(self),
+            States.GAME: Game(self),
+            States.PAUSE: Pause(self)
         }
 
         self.current_state = self.states[States.START]
 
-        #bg
-        self.background = load_img('background.jpeg')
-
         #game vars
         self.running = True
         self.restart = False
+        self.can_click = True
         self.delta = 0
         self.mouse_pos = ()
         self.mouse_input = ()
@@ -44,16 +50,23 @@ class App:
         while self.running:
             self.delta = min(self.clock.tick()/1000, 0.1)
             self.mouse_pos = pygame.mouse.get_pos()
-            self.mouse_input = pygame.mouse.get_pressed()
 
-            #blit bg
-            self.screen.blit(self.background, (0, 0))
+            mouse_input = pygame.mouse.get_pressed()
+            if self.can_click:
+                self.mouse_input = mouse_input
+            else:
+                self.mouse_input = (0, 0, 0)
+                if not mouse_input[0]:
+                    self.can_click = True
 
             #handle events
             for event in pygame.event.get():
                 self.current_state.handle_event(event)
                 if event.type == pygame.QUIT:
                     self.running = False
+
+            #blit bg
+            self.screen.blit(self.background, (0, 0))
 
             #update and draw state
             self.current_state.update()
@@ -62,7 +75,12 @@ class App:
             pygame.display.flip()
 
     def change_state(self, state):
+        self.can_click = False
+
         self.current_state = self.states[state]
+
+    def get_state(self, state):
+        return self.states[state]
 
     def stop(self):
         self.running = False
