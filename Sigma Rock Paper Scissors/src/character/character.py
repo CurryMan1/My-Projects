@@ -1,7 +1,6 @@
 import pygame
 import random
 from math import hypot
-from src.tools.state_enum import States
 from src.tools.constants import WIDTH, HEIGHT, EDGE_AVOID_RADIUS
 
 
