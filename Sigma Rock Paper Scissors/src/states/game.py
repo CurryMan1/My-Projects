@@ -19,7 +19,7 @@ class Game(BaseState):
         self.time = 0
 
     def restart(self):
-        self.set_players(self.app.get_state(States.SETTINGS).slider.get())
+        self.set_players(self.app.get_state(States.SETTINGS).player_slider.get())
         self.app.change_state(States.START)
 
     def set_players(self, players):

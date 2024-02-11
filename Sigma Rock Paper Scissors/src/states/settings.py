@@ -26,22 +26,22 @@ class Settings(BaseState):
             (WIDTH / 2, 180)
         )
 
-        self.slider = Slider(self.app, (WIDTH/2, HEIGHT/2), 'Team Size: ', 100, 1)
+        self.player_slider = Slider(self.app, (WIDTH/2, HEIGHT/2), 'Team Size: ', 100, 1)
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.app.get_state(States.GAME).set_players(self.slider.get())
+                self.app.get_state(States.GAME).set_players(self.player_slider.get())
                 self.app.change_state(States.START)
 
     def draw(self):
         self.back_btn.draw()
         self.title.draw()
-        self.slider.draw()
+        self.player_slider.draw()
 
     def update(self):
         if self.back_btn.is_clicked():
-            self.app.get_state(States.GAME).set_players(self.slider.get())
+            self.app.get_state(States.GAME).set_players(self.player_slider.get())
             self.app.change_state(States.START)
 
-        self.slider.update()
+        self.player_slider.update()
