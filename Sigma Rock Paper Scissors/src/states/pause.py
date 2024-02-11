@@ -2,7 +2,7 @@ import pygame
 from src.states.base import BaseState
 from src.ui.button import Button
 from src.tools.state_enum import States
-from src.tools.constants import WIDTH, WHITE
+from src.tools.constants import WIDTH, HEIGHT, WHITE
 
 
 class Pause(BaseState):
@@ -14,7 +14,7 @@ class Pause(BaseState):
             'PAUSED',
             self.app.title_font,
             WHITE,
-            (WIDTH/2, 250)
+            (WIDTH/2, 300)
         )
 
         self.resume_btn = Button(
@@ -22,7 +22,15 @@ class Pause(BaseState):
             'RESUME',
             self.app.normal_font,
             WHITE,
-            (WIDTH / 2, 450)
+            (WIDTH / 2, HEIGHT/2)
+        )
+
+        self.restart_btn = Button(
+            self.app,
+            'RESTART',
+            self.app.normal_font,
+            WHITE,
+            (WIDTH / 2, 660)
         )
 
         self.menu_btn = Button(
@@ -30,7 +38,7 @@ class Pause(BaseState):
             'MENU',
             self.app.normal_font,
             WHITE,
-            (WIDTH / 2, 650)
+            (WIDTH / 2, 780)
         )
 
     def set_last_frame(self, frame):
@@ -43,15 +51,19 @@ class Pause(BaseState):
         self.title.draw()
 
         self.resume_btn.draw()
+        self.restart_btn.draw()
         self.menu_btn.draw()
 
     def update(self):
         if self.resume_btn.is_clicked():
             self.app.change_state(States.GAME)
 
+        if self.restart_btn.is_clicked():
+            self.app.get_state(States.GAME).restart()
+            self.app.change_state(States.GAME)
+
         if self.menu_btn.is_clicked():
             self.app.change_state(States.START)
-
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:

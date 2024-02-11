@@ -54,6 +54,9 @@ class Start(BaseState):
             self.app.change_state(States.SETTINGS)
 
         if self.start_btn.is_clicked():
+            g = self.app.get_state(States.GAME)
+            g.ending = False
+            g.restart()
             self.app.change_state(States.GAME)
 
     def draw(self):

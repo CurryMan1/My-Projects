@@ -78,6 +78,8 @@ class App:
         self.can_click = False
 
         self.current_state = self.states[state]
+        if state == States.START:
+            self.states[States.GAME].ending = False
 
     def get_state(self, state):
         return self.states[state]

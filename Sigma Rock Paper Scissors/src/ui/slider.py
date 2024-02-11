@@ -59,4 +59,4 @@ class Slider:
         self.app.screen.blit(label, label.get_rect(center=self.rect.center))
 
     def get(self):
-        return round(self.value*100)*self.increment_percent
+        return round(self.value*100*self.increment_percent)
