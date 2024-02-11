@@ -64,6 +64,7 @@ class Pause(BaseState):
 
         if self.menu_btn.is_clicked():
             self.app.change_state(States.START)
+
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
