@@ -58,8 +58,9 @@ class Game(BaseState):
 
     def update(self):
         self.update_characters()
-        if self.restart_button.is_clicked():
-            self.restart()
+        if self.ending:
+            if self.restart_button.is_clicked():
+                self.restart()
 
     def update_characters(self):
         if self.ending:
