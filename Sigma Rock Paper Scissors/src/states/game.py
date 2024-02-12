@@ -33,7 +33,6 @@ class Game(BaseState):
         self.app.change_state(States.START)
 
     def set_characters(self, characters, seed=0):
-        print(seed)
         self.pl_g.seed(seed)
         self.characters = [
             Character(self.app,
