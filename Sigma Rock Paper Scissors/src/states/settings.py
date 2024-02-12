@@ -26,22 +26,43 @@ class Settings(BaseState):
             (WIDTH / 2, 180)
         )
 
-        self.player_slider = Slider(self.app, (WIDTH/2, HEIGHT/2), 'Team Size: ', 250, 1)
+        self.subtitle = Button(
+            self.app,
+            'Use arrow keys while hovering to increment',
+            self.app.small_font,
+            WHITE,
+            (WIDTH / 2, 330)
+        )
+
+        self.player_slider = Slider(self.app, (WIDTH/2, 500), 'Team Size: ', 250, 1, 100)
+        self.seed_slider = Slider(self.app, (WIDTH/2, 650), 'Seed: ', 10000, 1, 5000)
+
+    def get(self):
+        return self.player_slider.get(), self.seed_slider.get()
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.app.get_state(States.GAME).set_players(self.player_slider.get())
                 self.app.change_state(States.START)
+            elif event.key == pygame.K_RIGHT:
+                self.player_slider.increment(1)
+                self.seed_slider.increment(1)
+            elif event.key == pygame.K_LEFT:
+                self.player_slider.increment(-1)
+                self.seed_slider.increment(-1)
 
     def draw(self):
         self.back_btn.draw()
+
         self.title.draw()
+        self.subtitle.draw()
+
         self.player_slider.draw()
+        self.seed_slider.draw()
 
     def update(self):
         if self.back_btn.is_clicked():
-            self.app.get_state(States.GAME).set_players(self.player_slider.get())
             self.app.change_state(States.START)
 
         self.player_slider.update()
+        self.seed_slider.update()

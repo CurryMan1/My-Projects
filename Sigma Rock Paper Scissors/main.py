@@ -23,6 +23,7 @@ class App:
         #font
         self.title_font = pygame.font.Font('assets/fonts/smooth.ttf', 240)
         self.normal_font = pygame.font.Font('assets/fonts/smooth.ttf', 72)
+        self.small_font = pygame.font.Font('assets/fonts/smooth.ttf', 60)
 
         #images
         self.background = load_img('background.jpeg')

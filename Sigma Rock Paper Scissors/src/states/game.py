@@ -14,20 +14,32 @@ class Game(BaseState):
         self.characters = []
 
         self.end_title = None
+        self.restart_button = Button(
+            app, 'RESTART',
+            self.app.normal_font,
+            WHITE,
+            (WIDTH/2, HEIGHT/2+90)
+        )
 
         self.ending = False
         self.time = 0
 
+        self.pl_g = random.Random()
+
     def restart(self):
-        self.set_players(self.app.get_state(States.SETTINGS).player_slider.get())
+        settings = self.app.get_state(States.SETTINGS)
+
+        self.set_characters(*settings.get())
         self.app.change_state(States.START)
 
-    def set_players(self, players):
+    def set_characters(self, characters, seed=0):
+        print(seed)
+        self.pl_g.seed(seed)
         self.characters = [
             Character(self.app,
-                      (random.randint(EDGE_AVOID_RADIUS+20, WIDTH - EDGE_AVOID_RADIUS-20),
-                       random.randint(EDGE_AVOID_RADIUS+20, HEIGHT - EDGE_AVOID_RADIUS-20)),
-                      i//players) for i in range(players*3)
+                      (self.pl_g.randint(EDGE_AVOID_RADIUS+20, WIDTH - EDGE_AVOID_RADIUS-20),
+                       self.pl_g.randint(EDGE_AVOID_RADIUS+20, HEIGHT - EDGE_AVOID_RADIUS-20)),
+                      i // characters) for i in range(characters*3)
         ]
 
     def handle_event(self, event):
@@ -43,9 +55,12 @@ class Game(BaseState):
 
         if self.ending:
             self.end_title.draw()
+            self.restart_button.draw()
 
     def update(self):
         self.update_characters()
+        if self.restart_button.is_clicked():
+            self.restart()
 
     def update_characters(self):
         if self.ending:
@@ -71,7 +86,7 @@ class Game(BaseState):
                     self.app, ['FINNS', 'FRAGRANCES', 'GEORGES'][char.group] + ' WIN',
                     self.app.title_font,
                     WHITE,
-                    (WIDTH/2, HEIGHT/2)
+                    (WIDTH/2, HEIGHT/2-60)
                 )
                 return
 
@@ -79,7 +94,7 @@ class Game(BaseState):
                 char.move_away_from(teammate)
 
             for predator in nearest_predators[:3]:
-                if char.distance_to(predator) < RUN_AWAY_RADIUS:
+                if predator.distance_to(char) < RUN_AWAY_RADIUS:
                     char.move_away_from(predator)
 
             if nearest_prey and nearest_prey.distance_to(char) < CHASE_RADIUS:
