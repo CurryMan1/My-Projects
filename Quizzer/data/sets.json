@@ -84,6 +84,18 @@
             },
             "Order these measurements:\ngram, picogram, microgram,\nmilligram, nanogram.": {
                 "answer": "picogram, nanogram,\nmicrogram, milligram,\ngram (ascending)"
+            },
+            "Name the substance that\nplants use to strengthen\ncell walls.": {
+                "answer": "The substance that plants use to strengthen cell walls is cellulose."
+            },
+            "Give two ways apart from\nstrengthening the cell wall\nthat plants use glucose.": {
+                "answer": "Any 2 from:\nRespiration\nMaking amino acids\nConverted to lipids/fats (for storage)\nTurned into starch for storage."
+            },
+            "What is an endothermic \nreaction?": {
+                "answer": "An endothermic reaction is a reaction where energy is transferred from the surroundings"
+            },
+            "What is an exothermic reaction?": {
+                "answer": "A reaction which transfers energy into the surroundings."
             }
         },
         "answered": 38,
