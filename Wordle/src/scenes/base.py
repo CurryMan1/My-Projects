@@ -2,7 +2,7 @@ import pygame
 from src.constants import WIN_SIZE, BLACK
 
 
-class BaseState:
+class BaseScene:
     def __init__(self, app):
         self.app = app
 

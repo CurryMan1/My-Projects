@@ -1,7 +1,7 @@
 import pygame
 from src.constants import WIN_SIZE, BLACK
 from src.scene_enum import Scenes
-
+from src.scenes.start import Start
 
 
 class App:
@@ -11,16 +11,13 @@ class App:
         #display
         self.screen = pygame.display.set_mode(WIN_SIZE, pygame.SCALED | pygame.FULLSCREEN)
 
-        #clock
-        self.clock = pygame.time.Clock()
-
         #font
         self.title_font = pygame.font.Font('assets/fonts/wordle_font.otf', 240)
         self.normal_font = pygame.font.Font('assets/fonts/wordle_font.otf', 72)
 
         #states
         self.scenes = {
-            Scenes.START: 22
+            Scenes.START: Start(self)
         }
 
         self.current_state = self.scenes[Scenes.START]
@@ -35,10 +32,9 @@ class App:
 
     def run(self):
         while self.running:
-            self.delta = min(self.clock.tick()/1000, 0.1)
             self.mouse_pos = pygame.mouse.get_pos()
-
             mouse_input = pygame.mouse.get_pressed()
+
             if self.can_click:
                 self.mouse_input = mouse_input
             else:
@@ -56,7 +52,7 @@ class App:
             self.screen.fill(BLACK)
 
             #update and draw state
-            self.current_state.update(self.delta)
+            self.current_state.update()
             self.current_state.draw()
 
             pygame.display.flip()
