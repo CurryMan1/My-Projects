@@ -1,0 +1,5 @@
+WIDTH, HEIGHT = WIN_SIZE = 1920, 1080
+
+WHITE = (0, 0, 0)
+BLACK = (0, 0, 0)
+GREEN = (83, 141, 78)
