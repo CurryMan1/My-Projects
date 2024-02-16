@@ -1,7 +1,9 @@
 import pygame
-from src.constants import WIN_SIZE, BLACK
+from src.utils import load_img
+from src.constants import WIN_SIZE
 from src.scene_enum import Scenes
 from src.scenes.start import Start
+from src.scenes.settings import Settings
 
 
 class App:
@@ -10,14 +12,21 @@ class App:
 
         #display
         self.screen = pygame.display.set_mode(WIN_SIZE, pygame.SCALED | pygame.FULLSCREEN)
+        pygame.display.set_caption('Wordle')
+        pygame.display.set_icon(load_img('icon.png', True))
+
+        #clock
+        self.clock = pygame.time.Clock()
 
         #font
-        self.title_font = pygame.font.Font('assets/fonts/wordle_font.otf', 240)
-        self.normal_font = pygame.font.Font('assets/fonts/wordle_font.otf', 72)
+        self.title_font = pygame.font.Font('assets/fonts/wordle_font.otf', 150)
+        self.letter = pygame.font.Font('assets/fonts/wordle_font.otf', 100)
+        self.normal_font = pygame.font.Font('assets/fonts/wordle_font.otf', 60)
 
         #states
         self.scenes = {
-            Scenes.START: Start(self)
+            Scenes.START: Start(self),
+            Scenes.SETTINGS: Settings(self)
         }
 
         self.current_state = self.scenes[Scenes.START]
@@ -25,22 +34,26 @@ class App:
         #game vars
         self.running = True
         self.restart = False
-        self.can_click = True
+        self.clicked = False
         self.delta = 0
         self.mouse_pos = ()
         self.mouse_input = ()
 
     def run(self):
         while self.running:
-            self.mouse_pos = pygame.mouse.get_pos()
-            mouse_input = pygame.mouse.get_pressed()
+            self.delta = min(self.clock.tick()/1000, 0.1)
 
-            if self.can_click:
-                self.mouse_input = mouse_input
+            self.mouse_pos = pygame.mouse.get_pos()
+            self.mouse_input = pygame.mouse.get_pressed()
+
+            #update and draw state
+            self.current_state.update(self.delta)
+            self.current_state.draw()
+
+            if self.mouse_input[0]:
+                self.clicked = True
             else:
-                self.mouse_input = (0, 0, 0)
-                if not mouse_input[0]:
-                    self.can_click = True
+                self.clicked = False
 
             #handle events
             for event in pygame.event.get():
@@ -48,22 +61,16 @@ class App:
                 if event.type == pygame.QUIT:
                     self.running = False
 
-            #blit bg
-            self.screen.fill(BLACK)
 
-            #update and draw state
-            self.current_state.update()
-            self.current_state.draw()
 
             pygame.display.flip()
 
-    def change_state(self, state):
-        self.can_click = False
+    def change_scene(self, scene):
+        self.clicked = True
+        self.current_state = self.scenes[scene]
 
-        self.current_state = self.states[state]
-
-    def get_state(self, state):
-        return self.states[state]
+    def get_scene(self, scene):
+        return self.scenes[scene]
 
     def stop(self):
         self.running = False

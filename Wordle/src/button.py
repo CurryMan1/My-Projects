@@ -1,5 +1,5 @@
 import pygame
-from src.constants import GREEN, BLACK, WHITE
+from src.constants import GREEN, WHITE
 
 
 class Button:
@@ -7,7 +7,6 @@ class Button:
         self.app = app
         self.surf = font.render(text, True, WHITE)
         self.selected_surf = font.render(text, True, GREEN)
-        self.shadow = font.render(text, True, BLACK)
 
         self.rect = self.surf.get_rect(center=pos)
         self.hovered = False
@@ -17,7 +16,6 @@ class Button:
         return self.hovered and self.app.mouse_input[0]
 
     def draw(self) -> None:
-        self.app.screen.blit(self.shadow, self.rect.move(5, 5))
         if self.hovered:
             self.app.screen.blit(self.selected_surf, self.rect)
         else:
