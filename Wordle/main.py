@@ -20,8 +20,9 @@ class App:
 
         #font
         self.title_font = pygame.font.Font('assets/fonts/wordle_font.otf', 150)
-        self.letter = pygame.font.Font('assets/fonts/wordle_font.otf', 100)
-        self.normal_font = pygame.font.Font('assets/fonts/wordle_font.otf', 60)
+        self.big_font = pygame.font.Font('assets/fonts/wordle_font.otf', 100)
+        self.normal_font = pygame.font.Font('assets/fonts/wordle_font.otf', 70)
+        self.small_font = pygame.font.Font('assets/fonts/wordle_font.otf', 60)
 
         #states
         self.scenes = {
@@ -60,8 +61,6 @@ class App:
                 self.current_state.handle_event(event)
                 if event.type == pygame.QUIT:
                     self.running = False
-
-
 
             pygame.display.flip()
 

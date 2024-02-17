@@ -1,7 +1,7 @@
 import pygame
 from src.scene_enum import Scenes
 from src.scenes.base import BaseScene
-from src.button import Button
+from src.buttons.text_button import TextButton
 from src.constants import WIDTH, HEIGHT, BLACK
 
 
@@ -9,32 +9,32 @@ class Start(BaseScene):
     def __init__(self, app):
         super().__init__(app)
 
-        self.title = Button(
+        self.title = TextButton(
             self.app,
             'Wordle',
             self.app.title_font,
-            (WIDTH/2, 300)
+            center=(WIDTH/2, 300)
         )
 
-        self.start_btn = Button(
+        self.start_btn = TextButton(
             self.app,
             'Start',
-            self.app.normal_font,
-            (WIDTH/2, HEIGHT/2)
+            self.app.small_font,
+            center=(WIDTH/2, HEIGHT/2)
         )
 
-        self.settings_btn = Button(
+        self.settings_btn = TextButton(
             self.app,
             'Settings',
-            self.app.normal_font,
-            (WIDTH/2, 660)
+            self.app.small_font,
+            center=(WIDTH/2, 660)
         )
 
-        self.quit_btn = Button(
+        self.quit_btn = TextButton(
             self.app,
             'Quit',
-            self.app.normal_font,
-            (WIDTH/2, 780)
+            self.app.small_font,
+            center=(WIDTH/2, 780)
         )
 
     def handle_event(self, event):
