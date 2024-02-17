@@ -43,16 +43,17 @@ class Start(BaseScene):
                 self.app.stop()
 
     def update(self, delta):
-        if self.start_btn.is_clicked():
-            ...
+        if not self.app.clicked:
+            if self.start_btn.is_clicked():
+                ...
 
-        if self.settings_btn.is_clicked():
-            s = self.app.get_scene(Scenes.SETTINGS)
-            s.set_last_frame(self.app.screen.copy())
-            self.app.change_scene(Scenes.SETTINGS)
+            if self.settings_btn.is_clicked():
+                s = self.app.get_scene(Scenes.SETTINGS)
+                s.set_last_frame(self.app.screen.copy())
+                self.app.change_scene(Scenes.SETTINGS)
 
-        if self.quit_btn.is_clicked():
-            self.app.stop()
+            if self.quit_btn.is_clicked():
+                self.app.stop()
 
     def draw(self):
         self.app.screen.fill(BLACK)
