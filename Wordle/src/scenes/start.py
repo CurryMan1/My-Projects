@@ -19,22 +19,22 @@ class Start(BaseScene):
         self.start_btn = TextButton(
             self.app,
             'Start',
-            self.app.small_font,
-            center=(WIDTH/2, HEIGHT/2)
+            self.app.normal_font,
+            center=(WIDTH/2, 520)
         )
 
         self.settings_btn = TextButton(
             self.app,
             'Settings',
-            self.app.small_font,
+            self.app.normal_font,
             center=(WIDTH/2, 660)
         )
 
         self.quit_btn = TextButton(
             self.app,
             'Quit',
-            self.app.small_font,
-            center=(WIDTH/2, 780)
+            self.app.normal_font,
+            center=(WIDTH/2, 800)
         )
 
     def handle_event(self, event):
@@ -45,7 +45,7 @@ class Start(BaseScene):
     def update(self, delta):
         if not self.app.clicked:
             if self.start_btn.is_clicked():
-                ...
+                self.app.change_scene(Scenes.GAME)
 
             if self.settings_btn.is_clicked():
                 s = self.app.get_scene(Scenes.SETTINGS)

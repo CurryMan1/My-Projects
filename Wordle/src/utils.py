@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 def load_img(path, transparent=False, scale=None, rotate=None):
@@ -16,3 +17,8 @@ def load_img(path, transparent=False, scale=None, rotate=None):
         img = img.convert()
 
     return img
+
+
+def load_words(path):
+    with open(path, 'r') as f:
+        return [word.strip().upper() for word in f.readlines()]

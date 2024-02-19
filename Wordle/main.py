@@ -4,9 +4,12 @@ from src.constants import WIN_SIZE
 from src.scene_enum import Scenes
 from src.scenes.start import Start
 from src.scenes.settings import Settings
+from src.scenes.game import Game
 
 
 class App:
+    FONT = 'assets/fonts/wordle_font.otf'
+
     def __init__(self):
         pygame.init()
 
@@ -19,15 +22,16 @@ class App:
         self.clock = pygame.time.Clock()
 
         #font
-        self.title_font = pygame.font.Font('assets/fonts/wordle_font.otf', 150)
-        self.big_font = pygame.font.Font('assets/fonts/wordle_font.otf', 100)
-        self.normal_font = pygame.font.Font('assets/fonts/wordle_font.otf', 70)
-        self.small_font = pygame.font.Font('assets/fonts/wordle_font.otf', 60)
+        self.title_font = pygame.font.Font(self.FONT, 150)
+        self.big_font = pygame.font.Font(self.FONT, 110)
+        self.normal_font = pygame.font.Font(self.FONT, 70)
+        self.letter_font = pygame.font.Font(self.FONT, 45)
 
         #states
         self.scenes = {
             Scenes.START: Start(self),
-            Scenes.SETTINGS: Settings(self)
+            Scenes.SETTINGS: Settings(self),
+            Scenes.GAME: Game(self)
         }
 
         self.current_state = self.scenes[Scenes.START]
