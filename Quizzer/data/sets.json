@@ -1,9 +1,6 @@
 {
     "Biology": {
         "questions": {
-            "Why do enzymes have an\noptimum pH value? (2)": {
-                "answer": "If the pH value is too high or too low, it can interfere with the bonds holding the enzyme together. This changes the shape of the active site and denatures the enzyme."
-            },
             "What are the enzymes and\nproducts for Carbs, Proteins\nand Lipids? (3)": {
                 "answer": "Carbs: Carbohydrase, Sugars such as maltose and glucose.\nProteins: Protease, Amino Acids.\nLipids: Lipase, [1] Glycerol and [3] fatty acids."
             },
@@ -49,9 +46,6 @@
             "What is the equation for\nphotosynthesis? (2)": {
                 "answer": "carbon dioxide + water => glucose + oxygen"
             },
-            "What is the equation for\nanaerobic respiration? (1)": {
-                "answer": "glucose => lactic acid"
-            },
             "What is the equation for \naerobic respiration in \nplants? (1)": {
                 "answer": "glucose => ethanol + carbon dioxide"
             },
@@ -96,10 +90,19 @@
             },
             "What is an exothermic reaction?": {
                 "answer": "A reaction which transfers energy into the surroundings."
+            },
+            "Why do enzymes have an \noptimum pH value? (2)": {
+                "answer": "If the pH value is too high or too low, it can interfere with the bonds holding the enzyme together. This changes the shape of the active site and denatures the enzyme."
+            },
+            "What are the equations for \nanaerobic respiration? (2)": {
+                "answer": "glucose => lactic acid (humans)\nglucose => carbon dioxide + ethanol (plants)"
+            },
+            "What is Homeostasis? (2)": {
+                "answer": "Homeostasis is the regulation of the conditions inside the body/cells to maintain a stable internal environment (1) in response to internal and external conditions (1)."
             }
         },
-        "answered": 38,
-        "correct": 31
+        "answered": 43,
+        "correct": 35
     },
     "Chemistry": {
         "questions": {

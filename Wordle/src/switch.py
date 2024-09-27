@@ -53,7 +53,7 @@ class Switch:
             self.knob_pos.x += x_diff * self.SPEED * delta
 
             #check lock on
-            if abs(x_diff) < self.lock_px:
+            if abs(x_diff) < self.lock_px or not (self.knob_start <= self.knob_pos.x <= self.knob_end):
                 self.changing = False
                 self.knob_pos.x = end_pos
 

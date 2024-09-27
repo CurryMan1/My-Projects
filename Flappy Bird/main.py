@@ -12,7 +12,7 @@ screen = pg.display.set_mode((screen_width, screen_height))
 pg.display.set_caption('Flappy Bird')
 
 #font
-font = pg.font.Font("C:/Users/user/Documents/Hardhik's Stuff/Random Stuff/Fonts/Futura Extra Black font.ttf", 60)
+font = pg.font.SysFont("Arial", 60)
 
 #colour
 white = (255, 255, 255)

@@ -34,7 +34,7 @@ class App:
             Scenes.GAME: Game(self)
         }
 
-        self.current_state = self.scenes[Scenes.START]
+        self.current_scene = self.scenes[Scenes.START]
 
         #game vars
         self.running = True
@@ -52,8 +52,8 @@ class App:
             self.mouse_input = pygame.mouse.get_pressed()
 
             #update and draw state
-            self.current_state.update(self.delta)
-            self.current_state.draw()
+            self.current_scene.update(self.delta)
+            self.current_scene.draw()
 
             if self.mouse_input[0]:
                 self.clicked = True
@@ -62,7 +62,7 @@ class App:
 
             #handle events
             for event in pygame.event.get():
-                self.current_state.handle_event(event)
+                self.current_scene.handle_event(event)
                 if event.type == pygame.QUIT:
                     self.running = False
 
@@ -70,10 +70,7 @@ class App:
 
     def change_scene(self, scene):
         self.clicked = True
-        self.current_state = self.scenes[scene]
-
-    def get_scene(self, scene):
-        return self.scenes[scene]
+        self.current_scene = self.scenes[scene]
 
     def stop(self):
         self.running = False

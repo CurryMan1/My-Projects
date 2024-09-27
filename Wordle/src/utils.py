@@ -1,5 +1,4 @@
 import pygame
-import random
 
 
 def load_img(path, transparent=False, scale=None, rotate=None):

@@ -45,11 +45,14 @@ class Start(BaseScene):
     def update(self, delta):
         if not self.app.clicked:
             if self.start_btn.is_clicked():
+                self.app.scenes[Scenes.GAME].set_mode(
+                    self.app.scenes[Scenes.SETTINGS].hard_mode_switch.get(),
+                    self.app.scenes[Scenes.SETTINGS].keyboard_switch.get()
+                )
                 self.app.change_scene(Scenes.GAME)
 
             if self.settings_btn.is_clicked():
-                s = self.app.get_scene(Scenes.SETTINGS)
-                s.set_last_frame(self.app.screen.copy())
+                self.app.scenes[Scenes.SETTINGS].set_last_frame(self.app.screen.copy())
                 self.app.change_scene(Scenes.SETTINGS)
 
             if self.quit_btn.is_clicked():
