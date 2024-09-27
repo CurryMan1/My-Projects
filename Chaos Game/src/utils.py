@@ -23,7 +23,7 @@ def check_in_shape(point, edges):
         if xp < x_intercept:
             count += 1
 
-    if count == 1:
+    if count%2 == 0:
         return True
     return False
 

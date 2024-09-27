@@ -20,8 +20,6 @@ class Shape:
         if 360/sides == self.angle:
             return
         self.angle = 360/sides
-
-        print(len(self.points))
         self.points = self.points[:1]
 
         for i in range(sides):
@@ -37,11 +35,12 @@ class Shape:
             last_point = next_point
 
         for p in self.points:
-            next_point = self.pos+p
+            next_point = self.pos + p
             pygame.draw.circle(self.app.screen, BLUE, next_point, 12)
 
     def get_random(self):
-        return random.choice(self.points)
+        x = random.choice(self.points) + self.pos
+        return x
 
     def get_edges(self):
         if len(self.points) == len(self.edges):

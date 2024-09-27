@@ -28,7 +28,7 @@ class Start(BaseState):
 
         self.credit_title = Button(
             app,
-            'Made by Hardhik Vittanala 10B',
+            'Made by Hardhik Vittanala 11B',
             self.app.subtitle_font,
             WHITE,
             (WIDTH/2, 500)

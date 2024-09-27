@@ -24,8 +24,6 @@ class Game(BaseState):
         self.ending = False
         self.time = 0
 
-        self.pl_g = random.Random()
-
     def restart(self):
         settings = self.app.get_state(States.SETTINGS)
 
@@ -33,11 +31,11 @@ class Game(BaseState):
         self.app.change_state(States.START)
 
     def set_characters(self, characters, seed=0):
-        self.pl_g.seed(seed)
+        random.seed(seed)
         self.characters = [
             Character(self.app,
-                      (self.pl_g.randint(EDGE_AVOID_RADIUS+20, WIDTH - EDGE_AVOID_RADIUS-20),
-                       self.pl_g.randint(EDGE_AVOID_RADIUS+20, HEIGHT - EDGE_AVOID_RADIUS-20)),
+                      (random.randint(EDGE_AVOID_RADIUS+20, WIDTH - EDGE_AVOID_RADIUS-20),
+                       random.randint(EDGE_AVOID_RADIUS+20, HEIGHT - EDGE_AVOID_RADIUS-20)),
                       i // characters) for i in range(characters*3)
         ]
 

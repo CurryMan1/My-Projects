@@ -77,7 +77,15 @@ class App:
             'Golden Ratio',
             self.small_font,
             GOLD,
-            (WIDTH-200, 1020)
+            (WIDTH-200, 510)
+        )
+
+        self.halfway_btn = Button(
+            self,
+            '0.5',
+            self.small_font,
+            WHITE,
+            (WIDTH - 200, 570)
         )
 
         self.shape = Shape(
@@ -85,6 +93,10 @@ class App:
             SHAPE_RADIUS,
             CENTER
         )
+
+        self.point_surf = pygame.Surface(WIN_SIZE, pygame.SRCALPHA)
+        self.cur_point = None
+        self.ratio = 1
 
     def run(self):
         while self.running:
@@ -97,43 +109,65 @@ class App:
 
             self.title.draw()
 
-            self.sides_slider.update()
-            self.sides_slider.draw()
-
             if self.start_btn.is_clicked() and not self.lclicked:
-                self.simulating = True
+                self.simulating = not self.simulating
+
+                self.start_btn.change_text(f'{["Start", "Stop"][self.simulating]} Simulation')
+
+                if self.simulating:
+                    self.point_surf = pygame.Surface(WIN_SIZE, pygame.SRCALPHA)
+                    self.ratio = self.ratio_slider.get()
+
+                    #get edges from shape
+                    edges = self.shape.get_edges()
+
+                    in_shape = False
+                    while not in_shape:
+                        #pick random point
+                        point = pygame.Vector2(CENTER) + (
+                            random.randint(-SHAPE_RADIUS, SHAPE_RADIUS),
+                            random.randint(-SHAPE_RADIUS, SHAPE_RADIUS)
+                        )
+
+                        in_shape = check_in_shape(point, edges)
+                        if in_shape:
+                            self.cur_point = point
+
+                else:
+                    self.cur_point = None
+
             self.start_btn.draw()
 
-            self.ratio_slider.update()
+            if not self.simulating:
+                self.sides_slider.update()
+            self.sides_slider.draw()
+
+            if not self.simulating:
+                self.ratio_slider.update()
             self.ratio_slider.draw()
 
             if self.golden_ratio_btn.is_clicked():
                 self.ratio_slider.set_value(0.618)
             self.golden_ratio_btn.draw()
 
+            if self.halfway_btn.is_clicked():
+                self.ratio_slider.set_value(0.5)
+            self.halfway_btn.draw()
+
             self.shape.update(self.sides_slider.get())
             self.shape.draw()
 
             #draw dots if simulating
             if self.simulating:
-                #pick random point
-                point = pygame.Vector2(CENTER)+(
-                    random.randint(-SHAPE_RADIUS, SHAPE_RADIUS),
-                    random.randint(-SHAPE_RADIUS, SHAPE_RADIUS)
-                )
+                random_vertex = self.shape.get_random()
 
-                self.point_to_draw = point
-                #get edges from shape
-                edges = self.shape.get_edges()
+                diff = self.cur_point - random_vertex
 
-                #check if point is in shape
-                in_shape = check_in_shape(point, edges)
-                print(in_shape)
-                self.simulating = False
+                self.cur_point -= diff * self.ratio
 
-            if self.point_to_draw:
+                pygame.draw.circle(self.point_surf, BLUE, self.cur_point, 1)
 
-                pygame.draw.circle(self.screen, BLUE, self.point_to_draw, 20)
+            self.screen.blit(self.point_surf, (0, 0))
 
             #handle events
             for event in pygame.event.get():
