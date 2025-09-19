@@ -14,6 +14,7 @@ class ResultsGenerator:
             self.results[i+1] = []
             for j in range(self.guesses):
                 self.results[i+1].append(random.choice(OPTIONS))
+        print("Done")
         #print(self.results)
 
     def get(self):

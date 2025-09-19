@@ -21,6 +21,10 @@ class LoadingScreen(BaseState):
             for i in range(4)
         ]
 
+        #create results thread
+        self.results_thread = threading.Thread(target=self.app.results_generator.generate)
+        self.results_thread.start()
+
         self.time_elapsed = 0
         self.delay = 200
 
@@ -31,11 +35,7 @@ class LoadingScreen(BaseState):
         self.time_elapsed += int(delta*1000)
         self.time_elapsed %= self.delay*len(self.labels)
 
-        #create results thread
-        results_thread = threading.Thread(target=self.app.results_generator.generate)
-        results_thread.start()
-
-        if not results_thread.is_alive():
+        if not self.results_thread.is_alive():
             self.app.change_state(States.RESULTS_DISPLAYER)
 
     def draw(self):
