@@ -20,7 +20,7 @@ pygame.mixer.music.play(-1)
 
 #display
 WIDTH, HEIGHT = 1200, 900
-SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+SCREEN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED | pygame.FULLSCREEN)
 DISPLAY = pygame.surface.Surface((WIDTH, HEIGHT))
 pygame.display.set_caption('GorgShot')
 pygame.display.set_icon(pygame.image.load('assets/img/gorg.png'))

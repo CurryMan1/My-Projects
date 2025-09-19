@@ -14,7 +14,7 @@ pygame.mouse.set_visible(False)
 FPS = 60
 WIDTH, HEIGHT = 1500, 900
 CLOCK = pygame.time.Clock()
-SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+SCREEN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED | pygame.FULLSCREEN)
 DISPLAY = pygame.surface.Surface((WIDTH, HEIGHT))
 pygame.display.set_caption('Space Game idk')
 

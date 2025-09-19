@@ -3,7 +3,7 @@ from PIL import ImageGrab
 
 root = Tk()
 root.title('Hardhik Paint')
-root.iconbitmap('C:/Users/user/Downloads/paint-brush.ico')
+#root.iconbitmap('C:/Users/user/Downloads/paint-brush.ico')
 root.state('zoomed')
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
@@ -74,7 +74,7 @@ def save(event):
     global namefile, entryy
     if clicked.get() == 'Save':
         namefile = Toplevel(root)
-        namefile.iconbitmap('C:/Users/user/Downloads/paint-brush.ico')
+        #namefile.iconbitmap('C:/Users/user/Downloads/paint-brush.ico')
         namefile.title('Save File')
         entryy = Entry(namefile)
         entryy.grid(padx=30, pady=(30,0))

@@ -10,7 +10,7 @@ grey = '#606060'
 
 #TKINTER================================================================================================================
 root = Tk()
-root.iconbitmap('C:/Users/user/Downloads/Iconsmind-Outline-Timer-2.ico')
+#root.iconbitmap('C:/Users/user/Downloads/Iconsmind-Outline-Timer-2.ico')
 root.title('Benchmark Tests')
 root.resizable(False, False)
 root.geometry('+500+200')

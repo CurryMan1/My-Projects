@@ -15,7 +15,7 @@ songs = []
 
 mixer.init()
 mixer.music.set_volume(0.5)
-songs_list = os.listdir('C:/Users/user/PycharmProjects/Music Player/Songs')
+songs_list = os.listdir('Songs')
 for song in songs_list:
     songs.append(song)
 
@@ -40,15 +40,15 @@ def update():
 def change_song(audio):
     global timestamp, last_song
     timestamp = -1
-    audio_len.configure(text=str(datetime.timedelta(seconds = round(mixer.Sound(f'C:/Users/user/PycharmProjects/Music Player/Songs/{audio}').get_length()))))
-    mixer.music.load(f'C:/Users/user/PycharmProjects/Music Player/Songs/{audio}')
+    audio_len.configure(text=str(datetime.timedelta(seconds = round(mixer.Sound(f'Songs/{audio}').get_length()))))
+    mixer.music.load(f'Songs/{audio}')
     mixer.music.play()
     pause_play.configure(text='⏸️')
     if pause_play.cget('state') == 'disabled':
         pause_play.configure(state='normal')
         next_song.configure(state='normal')
         prev_song.configure(state='normal')
-    time_bar.configure(state='normal', to=round(mixer.Sound(f'C:/Users/user/PycharmProjects/Music Player/Songs/{audio}').get_length()))
+    time_bar.configure(state='normal', to=round(mixer.Sound(f'Songs/{audio}').get_length()))
     time_bar.set(0)
     if mycounter == 1 or last_song:
         last_song = False
