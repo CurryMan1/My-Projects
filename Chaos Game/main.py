@@ -4,7 +4,7 @@ from src.utils import check_in_shape
 from src.slider import Slider
 from src.button import Button
 from src.shape import Shape
-from src.constants import WIN_SIZE, CENTER, BLACK, BLUE, WHITE, WIDTH, HEIGHT, GOLD, SHAPE_RADIUS
+from src.constants import WIN_SIZE, CENTER, BLACK, BLUE, WHITE, WIDTH, GOLD, SHAPE_RADIUS
 
 
 class App:
