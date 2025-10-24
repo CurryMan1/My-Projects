@@ -63,8 +63,8 @@ class Start(BaseState):
             questions = self.questions_slider.get()
             answers = self.answers_slider.get()
 
-            self.app.change_state(States.LOADING_SCREEN)
             self.app.generate_results(questions, answers)
+            self.app.change_state(States.LOADING_SCREEN)
 
         if self.quit_btn.is_clicked():
             self.app.stop()

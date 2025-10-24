@@ -4,7 +4,6 @@ from PIL import ImageGrab
 root = CTk()
 root.title('Paint')
 root.state('zoomed')
-root.iconbitmap('C:/Users/user/Downloads/paint-brush.ico')
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 
@@ -57,7 +56,6 @@ def save(event):
     global namefile, entryy
     if options.get() == 'Save':
         namefile = CTkToplevel(root)
-        namefile.iconbitmap('C:/Users/user/Downloads/paint-brush.ico')
         namefile.title('Save File')
         entryy = CTkEntry(namefile)
         entryy.grid(padx=30, pady=(30, 0))
